@@ -1,0 +1,128 @@
+#!/usr/bin/env groovy
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+def getCurrentFlavor() {
+  Gradle gradle = getGradle()
+  String taskName = gradle.getStartParameter().getTaskNames()[0]
+
+  // match optional modules followed by the task
+  // (?:.*:)* is a non-capturing group to skip any :foo:bar: if they exist
+  // *[a-z]+([A-Za-z]+) will capture the flavor part of the task name onward (e.g., assembleRelease --> Release)
+  def pattern = Pattern.compile("(?:.*:)*[a-z]+([A-Z][A-Za-z0-9]+)")
+
+  if (taskName?.startsWith("assemble") || taskName?.startsWith("bundle")) {
+    // e.g. if assemblestagingrelease or bundlestagingrelease then the flavor will be staging
+    pattern = Pattern.compile("(?:assemble|bundle)(\\w+)([Rr]elease|[Dd]ebug)")
+  }
+
+  def flavor = ""
+
+  gradle.getStartParameter().getTaskNames().any { name ->
+    Matcher matcher = pattern.matcher(name)
+    if (matcher.find()) {
+      flavor = matcher.group(1).toLowerCase()
+      return true
+    }
+  }
+
+  return flavor
+}
+
+def getNodeModulesDir() {
+  def gradleSettingsDir = new File(project.rootDir, "..").canonicalPath
+  return gradleSettingsDir
+}
+
+def safeExtGet(prop, fallback) {
+  project.ext.has(prop) ? project.ext.get(prop) : fallback
+}
+
+def loadKeys() {
+  def flavor = getCurrentFlavor()
+    def keysFile = ""
+    def exportCommand = "";
+    if (System.env['KEYSFILE']) {
+      keysFile = System.env['KEYSFILE']
+      exportCommand = "export KEYSFILE=" + keysFile + " && ";
+    } else if (System.env['DEFAULT_FILE_NAME']) {
+      keysFile = System.env['DEFAULT_FILE_NAME']
+      exportCommand = "export KEYSFILE=" + keysFile + " && ";
+    } else if (project.hasProperty("DEFAULT_FILE_NAME")) {
+      keysFile = project.ext.DEFAULT_FILE_NAME
+      exportCommand = "export KEYSFILE=" + keysFile + " && ";
+    } else if (project.hasProperty("keyFiles")) {
+      project.ext.keyFiles.any { pair ->
+          if (flavor.startsWith(pair.key.toLowerCase())) {
+            keysFile = pair.value
+            exportCommand = "export KEYSFILE=" + keysFile + " && ";
+            return true
+          }
+      }
+    }
+
+    if (keysFile.isEmpty()) {
+      println("\n\n")
+      println("*********************************************************************************************************************")
+      println("***                             If you are running build flavour then                                            ****")
+      println("*** from app/build.gralde file, project.ext.keyFiles is missing key for " + flavor + " flavour, please define it.    ")
+      println("*********************************************************************************************************************")
+      println("\n\n")
+      if (project.ext.has('keyFiles') && project.ext.keyFiles.size() > 0) {
+        keysFile = project.ext.keyFiles[project.ext.keyFiles.keySet().iterator().next()];
+        exportCommand = "export KEYSFILE=" + keysFile + " && ";
+        println "Choose " + keysFile + " file for react-native-keys to avoid stop any build process\n\n"
+      } else {
+        // Print an error message
+        println "\n\nPlease define project.ext.keyFiles or export KEYSFILE=..json ./gradlew .. as you are using react-native-keys\n\n\n\n"
+      }
+    }
+    if (!keysFile.isEmpty()) {
+
+    def IS_EXAMPLE = safeExtGet("IS_EXAMPLE", false);
+
+    if (IS_EXAMPLE) {
+      exportCommand = exportCommand + "export IS_EXAMPLE='TRUE' && ../../keysAndroid.js"
+    } else {
+      def nodeModulesDir = getNodeModulesDir()
+      exportCommand = exportCommand + nodeModulesDir + "/node_modules/react-native-keys/keysAndroid.js"
+    }
+    def proc = ["/bin/sh", "-c", exportCommand].execute()
+    proc.consumeProcessOutput(System.out, System.err)
+
+    println(keysFile)
+    def keys = [: ]
+    File f = new File("$project.rootDir/../$keysFile");
+
+    if (f.exists()) {
+      def parsedJson = new groovy.json.JsonSlurper().parseText(f.text)
+      parsedJson.public.each { key, value ->
+        keys.put(key, value.replace('"', '\\"'))
+      }
+    } else {
+      println("**************************")
+      println("*** Missing KEYs file ****")
+      println("**************************")
+      return;
+    }
+
+    project.ext.set("keys", keys)
+
+    android {
+      defaultConfig {
+        keys.each { k, v ->
+          def escaped = v.replaceAll("%","\\\\u0025")
+          buildConfigField "String", k, "\"$v\""
+          resValue "string", k, "\"$escaped\""
+        }
+      }
+    }
+  } else {
+    project.ext.set("keys", [: ])
+  }
+}
+
+task keysCallCL(type: Exec) {
+  loadKeys();
+}

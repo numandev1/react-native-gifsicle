@@ -1,0 +1,195 @@
+{
+  "name": "react-native-keys",
+  "version": "0.7.6",
+  "description": "🔐 Make protected .ENVs variables",
+  "main": "./src/index.ts",
+  "source": "src/index",
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "app.plugin.js",
+    "plugin/build",
+    "keysAndroid.js",
+    "keysIOS.js",
+    "react-native-keys.podspec",
+    "!lib/typescript/example",
+    "!android/build",
+    "!ios/build",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.cxx"
+  ],
+  "scripts": {
+    "test": "jest",
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "prepare": "bob build",
+    "release": "cd plugin && tsc && cd .. && release-it",
+    "example": "yarn --cwd example",
+    "exampleExpo": "yarn --cwd exampleExpo",
+    "pods": "cd example && pod-install --quiet",
+    "bootstrap": "yarn example && yarn exampleExpo && yarn && yarn pluginTsc && yarn pods",
+    "pluginTsc": "cd plugin && tsc",
+    "pluginTsc-watch": "cd plugin && tsc --watch"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "config",
+    "environment",
+    "environment-variables",
+    "secure",
+    "env",
+    "jsi",
+    "jni",
+    "keys",
+    "jni-android",
+    "jni-ios",
+    "react-native-dotenv",
+    "react-native-config",
+    "dotenv",
+    "config-var",
+    "12factor",
+    "protected",
+    "undecryptable",
+    "envs"
+  ],
+  "repository": "https://github.com/numandev1/react-native-keys",
+  "author": "numandev1 <muhammadnuman70@gmail.com> (https://github.com/numandev1)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/numandev1/react-native-keys/issues"
+  },
+  "homepage": "https://github.com/numandev1/react-native-keys#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@expo/config-plugins": "^7.2.5",
+    "@types/normalize-path": "^3.0.0",
+    "@types/xml2js": "^0.4.12",
+    "@commitlint/config-conventional": "^17.0.2",
+    "@evilmartians/lefthook": "^1.2.2",
+    "@react-native-community/eslint-config": "^3.0.2",
+    "@release-it/conventional-changelog": "^5.0.0",
+    "@types/jest": "^28.1.2",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "0.70.0",
+    "commitlint": "^17.0.2",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-ft-flow": "^3.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^28.1.1",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "pod-install": "^0.1.0",
+    "prettier": "^2.0.5",
+    "react": "18.2.0",
+    "react-native": "0.72.3",
+    "react-native-builder-bob": "^0.21.3",
+    "release-it": "^15.0.0",
+    "turbo": "^1.10.7",
+    "typescript": "^5.0.2"
+  },
+  "resolutions": {
+    "@types/react": "17.0.21"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "jest": {
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/node_modules",
+      "<rootDir>/lib/"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular"
+      }
+    }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@react-native-community",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "quoteProps": "consistent",
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "es5",
+          "useTabs": false
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
+  "prettier": {
+    "quoteProps": "consistent",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "fs-extra": "^11.1.1",
+    "normalize-path": "^3.0.0",
+    "walk-sync": "^3.0.0",
+    "xml2js": "^0.6.2"
+  },
+  "codegenConfig": {
+    "name": "RNKeysSpec",
+    "type": "modules",
+    "jsSrcsDir": "src/spec"
+  }
+}
