@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import RNKeys from 'react-native-keys';
+import RNKeys from 'react-native-gifsicle';
 export default function App() {
   const [jniValue, setJniValue] = useState('');
   const [publicValue, setPublicValue] = useState('');

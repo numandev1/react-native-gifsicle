@@ -1,5 +1,5 @@
 {
-  "name": "react-native-keys",
+  "name": "react-native-gifsicle",
   "version": "0.7.6",
   "description": "🔐 Make protected .ENVs variables",
   "main": "./src/index.ts",
@@ -14,7 +14,7 @@
     "plugin/build",
     "keysAndroid.js",
     "keysIOS.js",
-    "react-native-keys.podspec",
+    "react-native-gifsicle.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
@@ -59,13 +59,13 @@
     "undecryptable",
     "envs"
   ],
-  "repository": "https://github.com/numandev1/react-native-keys",
+  "repository": "https://github.com/numandev1/react-native-gifsicle",
   "author": "numandev1 <muhammadnuman70@gmail.com> (https://github.com/numandev1)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/numandev1/react-native-keys/issues"
+    "url": "https://github.com/numandev1/react-native-gifsicle/issues"
   },
-  "homepage": "https://github.com/numandev1/react-native-keys#readme",
+  "homepage": "https://github.com/numandev1/react-native-gifsicle#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

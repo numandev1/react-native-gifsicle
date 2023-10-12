@@ -1,13 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-project.ext.IS_EXAMPLE = true;
-project.ext.keyFiles = [
-   development: "keys.development.json",
-   production: "keys.production.json",
-   staging: "keys.staging.json"
-]
-
-apply from: project(':react-native-keys').projectDir.getPath() + "/RNKeys.gradle"
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -90,19 +82,8 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    flavorDimensions "default"
-    productFlavors {
-      development {
-        applicationIdSuffix ".dev"
-      }
-      staging {
-        applicationIdSuffix ".staging"
-      }
-      production {
-        applicationIdSuffix ""
-      }
-    }
-  packagingOptions {
+
+packagingOptions {
     pickFirst 'lib/x86/libcrypto.so'
     pickFirst 'lib/x86_64/libcrypto.so'
     pickFirst 'lib/armeabi-v7a/libcrypto.so'

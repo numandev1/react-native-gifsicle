@@ -16,7 +16,7 @@ const PROJECT_ROOT_DIR_PATH = path.join(
   isExample ? `../../${exampleDirName}/` : '../../../../'
 );
 const PACKAGE_ROOT_DIR_PATH = path.join(__dirname, '../../');
-const RN_KEYS_PATH = path.join('node_modules', 'react-native-keys');
+const RN_KEYS_PATH = path.join('node_modules', 'react-native-gifsicle');
 const KEYS_IOS_PATH = path.join(RN_KEYS_PATH, 'ios');
 const KEYS_ANDROID_PATH = path.join(RN_KEYS_PATH, 'android');
 const KEYS_SRC_PATH = path.join(RN_KEYS_PATH, 'src');

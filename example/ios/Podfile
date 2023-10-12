@@ -44,7 +44,7 @@ target 'KeysExample' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'react-native-keys', :path => '../..'
+  pod 'react-native-gifsicle', :path => '../..'
   target 'KeysExampleTests' do
     inherit! :complete
     # Pods for testing

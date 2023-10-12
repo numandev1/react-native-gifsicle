@@ -55,7 +55,7 @@ def resolveReactNativeDirectory() {
   }
 
   throw new Exception(
-    "[react-native-keys] Unable to resolve react-native location in " +
+    "[react-native-gifsicle] Unable to resolve react-native location in " +
       "node_modules. You should add project extension property (in app/build.gradle) " +
       "`REACT_NATIVE_NODE_MODULES_DIR` with path to react-native."
   )
@@ -218,6 +218,8 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation 'com.android.ndk.thirdparty:openssl:1.1.1l-beta-1'
+//  implementation 'dev.rikka.ndk.thirdparty:flatbuffers:2.0.8'
+  implementation 'com.github.numandev1:flatbuffers-prefab:e21748fc02'
 }
 
 if (isNewArchitectureEnabled()) {

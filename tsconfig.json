@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-keys": [
+      "react-native-gifsicle": [
         "./src/index.ts"
       ]
     },

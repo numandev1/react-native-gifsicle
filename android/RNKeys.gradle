@@ -72,10 +72,10 @@ def loadKeys() {
       if (project.ext.has('keyFiles') && project.ext.keyFiles.size() > 0) {
         keysFile = project.ext.keyFiles[project.ext.keyFiles.keySet().iterator().next()];
         exportCommand = "export KEYSFILE=" + keysFile + " && ";
-        println "Choose " + keysFile + " file for react-native-keys to avoid stop any build process\n\n"
+        println "Choose " + keysFile + " file for react-native-gifsicle to avoid stop any build process\n\n"
       } else {
         // Print an error message
-        println "\n\nPlease define project.ext.keyFiles or export KEYSFILE=..json ./gradlew .. as you are using react-native-keys\n\n\n\n"
+        println "\n\nPlease define project.ext.keyFiles or export KEYSFILE=..json ./gradlew .. as you are using react-native-gifsicle\n\n\n\n"
       }
     }
     if (!keysFile.isEmpty()) {
@@ -86,7 +86,7 @@ def loadKeys() {
       exportCommand = exportCommand + "export IS_EXAMPLE='TRUE' && ../../keysAndroid.js"
     } else {
       def nodeModulesDir = getNodeModulesDir()
-      exportCommand = exportCommand + nodeModulesDir + "/node_modules/react-native-keys/keysAndroid.js"
+      exportCommand = exportCommand + nodeModulesDir + "/node_modules/react-native-gifsicle/keysAndroid.js"
     }
     def proc = ["/bin/sh", "-c", exportCommand].execute()
     proc.consumeProcessOutput(System.out, System.err)

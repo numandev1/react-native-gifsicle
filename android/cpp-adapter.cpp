@@ -9,6 +9,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include <iostream>
+
 #include "androidcpp/json.hpp"
 using json = nlohmann::json;
 
@@ -18,6 +20,14 @@ using namespace std;
 JavaVM *java_vm;
 jclass java_class;
 jobject java_object;
+
+// Define a callback function type for progress reporting
+//using ProgressCallback = std::function<void(int)>;
+//
+//// Declare a global progress callback function
+//ProgressCallback progressCallback;
+
+
 
 std::string jstringToString(JNIEnv *env, jstring jstr)
 {

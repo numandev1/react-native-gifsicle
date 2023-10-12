@@ -14,7 +14,7 @@ function applyImplementation(
   const RnkeysImplementation = `
 project.ext.IS_EXAMPLE = ${IS_EXAMPLE};
 project.ext.DEFAULT_FILE_NAME = "${defaultKeyFile}"
-apply from: project(':react-native-keys').projectDir.getPath() + "/RNKeys.gradle"
+apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNKeys.gradle"
   `;
   if (!appBuildGradle.includes('project.ext.DEFAULT_FILE_NAME')) {
     const enableProguardInReleaseBuildsLine = appBuildGradle.match(

@@ -3,7 +3,7 @@
 To try the playground out for yourself, run the following commands:
 
 ```sh
-git clone <https://github.com/numandev1/react-native-keys.git>
+git clone <https://github.com/numandev1/react-native-gifsicle.git>
 cd example
 yarn
 ```

@@ -32,7 +32,7 @@ const preAction = (
                   }export DEFAULT_FILE_NAME=${defaultKeyFile}\n${
                     IS_EXAMPLE
                       ? '"${SRCROOT}/../../keysIOS.js"'
-                      : '"${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"'
+                      : '"${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"'
                   }`,
                 },
                 EnvironmentBuildable: [
@@ -88,7 +88,7 @@ export const withPreActionScript: ConfigPlugin<PluginConfigType> = (
           await Promise.all(promises);
         }
       } catch (error) {
-        console.log(error, 'preactionScript <- react-native-keys');
+        console.log(error, 'preactionScript <- react-native-gifsicle');
       }
 
       return dangerousConfig;

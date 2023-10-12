@@ -2,7 +2,7 @@ import { NativeModules, Platform } from 'react-native';
 import type { KeyTurboSecuredType, KeyTurboType } from './type';
 
 const LINKING_ERROR =
-  `The package 'react-native-keys' doesn't seem to be linked. Make sure: \n\n` +
+  `The package 'react-native-gifsicle' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -25,6 +25,7 @@ const KeysTurboModule = KeysModule
         },
       }
     );
+
 const installed = KeysTurboModule.install();
 if (!installed) {
   throw new Error(LINKING_ERROR);
@@ -39,6 +40,10 @@ Object.assign(KeysTurbo, {
   ...(Platform.OS === 'android'
     ? JSON.parse(KeysTurbo.publicKeys() as unknown as string)
     : KeysTurbo.publicKeys()),
+});
+
+Object.assign(KeysTurbo, {
+  compressGif: KeysTurboModule.compressGif,
 });
 
 export default KeysTurbo;

@@ -7,16 +7,16 @@
 [![GitHub Repo stars](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#installation)
 [![GitHub Repo stars](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white)](#managed-expo)
 [![GitHub Repo stars](https://img.shields.io/static/v1?style=for-the-badge&message=Discord&color=5865F2&logo=Discord&logoColor=FFFFFF&label=)](https://discord.gg/fgPHnZpH9d)
-[![GitHub Repo stars](https://img.shields.io/github/stars/numandev1/react-native-keys?style=for-the-badge&logo=github)](https://github.com/numandev1/react-native-keys/stargazers)
-![npm](https://img.shields.io/npm/dt/react-native-keys?style=for-the-badge)
+[![GitHub Repo stars](https://img.shields.io/github/stars/numandev1/react-native-gifsicle?style=for-the-badge&logo=github)](https://github.com/numandev1/react-native-gifsicle/stargazers)
+![npm](https://img.shields.io/npm/dt/react-native-gifsicle?style=for-the-badge)
 
 </div>
 
 <p align="center"><b>REACT-NATIVE-KEYS</b> is a react-native package, which helps us to protect our <code>ENVs</code> and manage different environments like <code>dev</code>, <code>staging</code>, <code>production</code></p>
 
-### Why should we use react-native-keys over react-native-config?
+### Why should we use react-native-gifsicle over react-native-config?
 
-We should use **react-native-keys** instead of **react-native-config** because **react-native-keys** gives guarantee of protected **envs** whereas **react-native-config** **envs** can be decompile and hack
+We should use **react-native-gifsicle** instead of **react-native-config** because **react-native-gifsicle** gives guarantee of protected **envs** whereas **react-native-config** **envs** can be decompile and hack
 
 **Note:** We highly recommend utilizing `third-party client-side API KEYS`, such as `Google Map` or `Branch.io`, in the secure section of this package.
 
@@ -30,7 +30,7 @@ Making protected **Envs** library for React Native.
 - ⚡️ Lightning fast implementation with pure C++ and [**JSI**](https://github.com/react-native-community/discussions-and-proposals/issues/91) instead of the "old" Bridge
 - 🧪 Well tested in JS and C++
 
-We can Manage **secure**(protected) and **public** enviroment through **react-native-keys** supporting **iOS** and **Android**
+We can Manage **secure**(protected) and **public** enviroment through **react-native-gifsicle** supporting **iOS** and **Android**
 
 **secure:** Secure environment variables with the highest encryption which are protected
 
@@ -88,7 +88,7 @@ We can Manage **secure**(protected) and **public** enviroment through **react-na
 ## Installation
 
 ```sh
-yarn add react-native-keys
+yarn add react-native-gifsicle
 ```
 
 ##### [New Architecture (Turbo Module) Supported](https://reactnative.dev/docs/new-architecture-intro)
@@ -100,7 +100,7 @@ You can give feedback on [Discord channel](https://discord.gg/fgPHnZpH9d)
 <summary><b>Click here to Expand Managed Expo plugin Config</b></summary>
 
 ```
-expo install react-native-keys
+expo install react-native-gifsicle
 ```
 
 Add `keys.development.json`, `keys.staging.json` and `keys.production.json` at project root directory
@@ -112,7 +112,7 @@ Add the Keys plugin to your Expo config (`app.json`, `app.config.json` or `app.c
   "name": "my app",
   "plugins": [
     [
-      "react-native-keys",
+      "react-native-gifsicle",
       {
         "android": {
           "defaultKeyFile": "keys.staging.json" //default: keys.development.json
@@ -214,7 +214,7 @@ later on you can define other enviroment files like `keys.staging.json` and `key
 ### Public Keys
 
 ```js
-import Keys from 'react-native-keys';
+import Keys from 'react-native-gifsicle';
 
 Keys.API_URL; // https://example.com'
 Keys.URI_SCHEME; // fb://
@@ -223,7 +223,7 @@ Keys.URI_SCHEME; // fb://
 ### Secure Keys
 
 ```js
-import Keys from 'react-native-keys';
+import Keys from 'react-native-gifsicle';
 
 Keys.secureFor('API_TOKEN'); // 'ABCSE#$DDSD
 Keys.secureFor('GOOGLE_API_KEY'); // 'ABCSE#$DDSD
@@ -237,7 +237,7 @@ Keep in mind It's [basically impossible to prevent users from reverse engineerin
 Install the package:
 
 ```
-yarn add react-native-keys
+yarn add react-native-gifsicle
 ```
 
 Link the library:
@@ -247,7 +247,7 @@ Link the library:
 or later. For earlier versions you need to manually link the module.)
 
 ```
-react-native link react-native-keys
+react-native link react-native-gifsicle
 ```
 
 ### IOS
@@ -265,11 +265,11 @@ if cocoapods are used in the project then pod has to be installed as well:
 - **Manual Link (iOS)**
 
   1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-  2. Go to `node_modules` ➜ `react-native-keys` and add `Keys.xcodeproj`
+  2. Go to `node_modules` ➜ `react-native-gifsicle` and add `Keys.xcodeproj`
   3. Expand the `Keys.xcodeproj` ➜ `Products` folder
   4. In the project navigator, select your project. Add `Keys.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
   5. And go the Build Settings tab. Make sure All is toggled on (instead of Basic)
-  6. Look for Header Search Paths and add `$(SRCROOT)/../node_modules/react-native-keys/ios/**` as `non-recursive`
+  6. Look for Header Search Paths and add `$(SRCROOT)/../node_modules/react-native-gifsicle/ios/**` as `non-recursive`
 
 - **Mandatory Step**
 
@@ -297,7 +297,7 @@ ios/tmp.xcconfig
 6. Go to _Edit scheme..._ -> _Build_ -> _Pre-actions_, click _+_ and select _New Run Script Action_. Paste below code which will generate "tmp.xcconfig" before each build exposing values to Build Settings and Info.plist. Make sure to select your target under _Provide build settings from_ and Shared checkbox is ticked/enabled, so `$SRCROOT` environment variables is available to the script..
 
    ```
-   "${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"
+   "${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"
    ```
 
    if you face `env: node: No such file or directory` issue due to Nvm, Fnm or notion please follow this [guide](#using-node-with-nvm-fnm-or-notion)
@@ -311,14 +311,14 @@ ios/tmp.xcconfig
 ```sh
 export KEYSFILE=keys.development.json
 
-"${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"
+"${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"
 ```
 
 Alternatively, you can define a map in `Pre-actions` associating builds with env files:
 
 ```sh
     export KEYSFILE = "path_to_env"
-   "${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"
+   "${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"
 ```
 
 ### Android
@@ -328,8 +328,8 @@ Alternatively, you can define a map in `Pre-actions` associating builds with env
   **android/settings.gradle**
 
   ```diff
-  + include ':react-native-keys'
-  + project(':react-native-keys').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-keys/android')
+  + include ':react-native-gifsicle'
+  + project(':react-native-gifsicle').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gifsicle/android')
   ```
 
   **android/app/build.gradle**
@@ -337,7 +337,7 @@ Alternatively, you can define a map in `Pre-actions` associating builds with env
   ```diff
   dependencies {
    implementation "com.facebook.react:react-native:+"  // From node_modules
-  + implementation project(':react-native-keys')
+  + implementation project(':react-native-gifsicle')
   }
   ```
 
@@ -367,7 +367,7 @@ project.ext.keyFiles = [
   release: "keys.staging.json",
 ]
 
-apply from: project(':react-native-keys').projectDir.getPath() + "/RNKeys.gradle"
+apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNKeys.gradle"
 ```
 
 ## Native Usage
@@ -464,7 +464,7 @@ call, and use build cases in lowercase, like:
 
 Save config for different environments in different files: `keys.staging.json`, `keys.production.json`, etc.
 
-By default react-native-keys will read from `keys.development.json`, but you can change it when building or releasing your app.
+By default react-native-gifsicle will read from `keys.development.json`, but you can change it when building or releasing your app.
 
 The simplest approach is to tell it what file to read with an environment variable, like:
 
@@ -526,7 +526,7 @@ export RELEASE_KEYSFILE=keys.staging.json  # in IPA
 
 #above DEBUG_KEYSFILE and RELEASE_KEYSFILE variable are optional
 
-"${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"
+"${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"
 ```
 
 Also ensure that "Provide build settings from", just above the script, has a value selected so that PROJECT_DIR is set.
@@ -609,15 +609,15 @@ fi
 
 [ -z "$NODE_BINARY" ] && export NODE_BINARY="node"
 
-$NODE_BINARY "${SRCROOT}/../node_modules/react-native-keys/keysIOS.js"
+$NODE_BINARY "${SRCROOT}/../node_modules/react-native-gifsicle/keysIOS.js"
 ```
 
 # Alternative Package
 
 This package full alternative of [react-native-config](https://github.com/luggit/react-native-config) and [react-native-dotenv](https://github.com/goatandsheep/react-native-dotenv)
 
-The above-mentioned packages do not provide any **security** for **environment variables** as well as these packages are not as fast as the **react-native-keys** package because it does not use JSI (JavaScript Interface).
+The above-mentioned packages do not provide any **security** for **environment variables** as well as these packages are not as fast as the **react-native-gifsicle** package because it does not use JSI (JavaScript Interface).
 
-## Consider supporting with a ⭐️ [star on GitHub](https://github.com/numandev1/react-native-keys/stargazers)
+## Consider supporting with a ⭐️ [star on GitHub](https://github.com/numandev1/react-native-gifsicle/stargazers)
 
 If you are using the library in one of your projects, consider supporting it with a star. It takes a lot of time and effort to keep this maintained and address issues and bugs. Thank you.

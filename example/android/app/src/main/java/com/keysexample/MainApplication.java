@@ -1,8 +1,5 @@
 package com.keysexample;
 
-import static com.reactnativekeysjsi.KeysModule.getSecureFor;
-import android.util.Log;
-
 import android.app.Application;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -60,10 +57,6 @@ public class MainApplication extends Application implements ReactApplication {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-    String secureValue = getSecureFor("secure3");
-    String publicValue = BuildConfig.APP_NAME;
-    Log.d("secure(JNI)", "this value is from secure: " + secureValue);
-    Log.d("secure(JNI)", "this value is from public: " + publicValue);
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 }
