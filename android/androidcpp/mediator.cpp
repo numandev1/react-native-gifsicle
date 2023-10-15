@@ -4,7 +4,6 @@
 #include "crypto.h"
 #include <utility.h>
 #include <gifsicle.h>
-#include <gifsicle/serialization/binary.h>
 #include "testutils.h"
 #include <filesystem>
 #include <android/log.h>

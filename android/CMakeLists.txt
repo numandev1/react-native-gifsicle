@@ -23,8 +23,6 @@ set(SOURCES
     ../cpp/gifsicle/gifwrite.c
     ../cpp/gifsicle/progress.cpp
     ../cpp/gifsicle/utility.cpp
-
-    ../cpp/gifsicle/serialization/binary.cpp
 )
 
 

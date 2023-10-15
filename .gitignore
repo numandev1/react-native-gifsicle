@@ -67,3 +67,4 @@ example/ios/tmp.xcconfig
 src/type.ts
 cpp/crypto.cpp
 android/src/main/java/com/reactnativekeysjsi/PrivateKey.java
+3rd_party

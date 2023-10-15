@@ -14,7 +14,10 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "12.4" }
   s.source       = { :git => "https://github.com/numandev1/react-native-gifsicle.git", :tag => "#{s.version}" }
 
+  # s.source_files = "ios/**/*.{h,m,mm}", "cpp/**/*.{h,c,cpp}", "3rd_party/flatbuffers/include/flatbuffers/*.{h}", "3rd_party/flatbuffers/include/flatbuffers/pch/*.{h}"
   s.source_files = "ios/**/*.{h,m,mm}", "cpp/**/*.{h,c,cpp}"
+  s.exclude_files = 'cpp/gifsicle/opttemplate.c', 'cpp/gifsicle/ungifwrt.c'
+
   # Use install_modules_dependencies helper to install the dependencies if React Native version >=0.71.0.
   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
   if respond_to?(:install_modules_dependencies, true)
