@@ -8,6 +8,7 @@
 
 //#import "crypto.cpp"
 #import "crypto.h"
+#import "gifsicle_wrapper.h"
 #import "GeneratedDotEnv.m"
 #import "privateKey.m"
 
@@ -79,8 +80,90 @@ static void install(jsi::Runtime &jsiRuntime, Keys *_Keys) {
     jsiRuntime.global().setProperty(jsiRuntime, "publicKeys", move(publicKeys));
     
     
+    auto compressGif = Function::createFromHostFunction(jsiRuntime,
+                                                    PropNameID::forAscii(jsiRuntime,
+                                                                         "compressGif"),
+                                                    2,
+                                                      [_Keys](Runtime &runtime,
+                                                             const Value &thisValue,
+                                                             const Value *arguments,
+                                                             size_t count) -> Value {
+        NSString *filePath = convertJSIStringToNSString(runtime, arguments[0].getString(runtime));
+        NSDictionary *options = convertJSIObjectToNSDictionary(runtime, arguments[1].getObject(runtime));
+        NSString *result = [Keys compressGif:filePath options:options];
+        return Value(runtime, convertNSStringToJSIString(runtime, result));
+        
+    });
+    
+    jsiRuntime.global().setProperty(jsiRuntime, "compressGif", move(compressGif));
+    
+    
     
 }
+
++ (GifOptions)gifOptionsFromDictionary:(NSDictionary *)dictionary {
+    GifOptions options;
+
+    // Set default values
+    options.lossy = 200;
+    options.optimize = 1;
+    options.colors = 256;
+    options.scale_x = 1;
+    options.scale_y = 1;
+
+    // Check if the dictionary contains keys and update the options accordingly
+    NSNumber *lossyValue = dictionary[@"lossy"];
+    if (lossyValue != nil) {
+        options.lossy = [lossyValue integerValue];
+    }
+
+    NSNumber *optimizeValue = dictionary[@"optimize"];
+    if (optimizeValue != nil) {
+        options.optimize = [optimizeValue integerValue];
+    }
+
+    NSNumber *colorsValue = dictionary[@"colors"];
+    if (colorsValue != nil) {
+        options.colors = [colorsValue integerValue];
+    }
+
+    NSNumber *scaleXValue = dictionary[@"scale_x"];
+    if (scaleXValue != nil) {
+        options.scale_x = [scaleXValue integerValue];
+    }
+
+    NSNumber *scaleYValue = dictionary[@"scale_y"];
+    if (scaleYValue != nil) {
+        options.scale_y = [scaleYValue integerValue];
+    }
+
+    return options;
+}
+
++ (NSString *)compressGif: (NSString *)filePath options:(NSDictionary*) options {
+      @try {
+          GifsicleWrapper wrapper;
+                 NSString *destFilePath = @"file:///Users/apple/Library/Developer/CoreSimulator/Devices/9B4BAC0C-FE22-4C0E-BB73-66DD5CA6B091/data/Containers/Data/Application/887C28DB-54A1-4B76-A8AA-060A655B8B52/tmp/compressed.gif";
+
+                 // Convert NSString to std::string
+                 std::string sourceFile = [filePath UTF8String];
+                 std::string destFile = [destFilePath UTF8String];
+
+                 // Assuming you have a similar conversion method for gifOptions
+                  GifOptions gifOptions = [Keys gifOptionsFromDictionary:options];
+
+                 // Perform your operation with C++ strings
+                 std::string result = GifsicleWrapper().compressGifCpp(sourceFile, destFile, gifOptions);
+                
+                 // Convert the result back to NSString
+                 NSString *resultObjC = [NSString stringWithUTF8String:result.c_str()];
+
+                 return resultObjC;
+      }
+      @catch (NSException *exception) {
+          return @"";
+      }
+  }
 
 + (NSString *)secureFor: (NSString *)key {
       @try {

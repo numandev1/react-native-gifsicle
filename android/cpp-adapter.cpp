@@ -11,6 +11,9 @@
 
 #include <iostream>
 
+#include <gifsicle.h>
+#include "gifsicle_wrapper.h"
+
 #include "androidcpp/json.hpp"
 using json = nlohmann::json;
 
@@ -18,6 +21,11 @@ using namespace facebook::jsi;
 using namespace std;
 
 JavaVM *java_vm;
+
+
+
+
+
 jclass java_class;
 jobject java_object;
 
@@ -27,7 +35,47 @@ jobject java_object;
 //// Declare a global progress callback function
 //ProgressCallback progressCallback;
 
+GifOptions convertObjectToCppGifOptions(Runtime &runtime,const Object &gifOptions) {
+    GifOptions cppGifOptions;
 
+    if (gifOptions.getProperty(runtime,"lossy").isNumber()) {
+        cppGifOptions.lossy = gifOptions.getProperty(runtime,"lossy").asNumber();
+    } else {
+        cppGifOptions.lossy = 200; // Set default value
+    }
+
+    if (gifOptions.getProperty(runtime,"optimize").isNumber()) {
+        cppGifOptions.optimize = gifOptions.getProperty(runtime,"optimize").asNumber();
+    } else {
+        cppGifOptions.optimize = 3; // Set default value
+    }
+
+    if (gifOptions.getProperty(runtime,"scale_x").isNumber()) {
+        cppGifOptions.scale_x = gifOptions.getProperty(runtime,"scale_x").asNumber();
+    } else {
+        cppGifOptions.scale_x = 1; // Set default value
+    }
+
+    if (gifOptions.getProperty(runtime,"scale_y").isNumber()) {
+        cppGifOptions.scale_y = gifOptions.getProperty(runtime,"scale_y").asNumber();
+    } else {
+        cppGifOptions.scale_y = 1; // Set default value
+    }
+
+    if (gifOptions.getProperty(runtime,"colors").isNumber()) {
+        cppGifOptions.colors = gifOptions.getProperty(runtime,"colors").asNumber();
+    } else {
+        cppGifOptions.colors = 256; // Set default value
+    }
+
+    if (gifOptions.getProperty(runtime,"reduce_frames").isNumber()) {
+        cppGifOptions.reduce_frames = gifOptions.getProperty(runtime,"reduce_frames").asNumber();
+    } else {
+        cppGifOptions.reduce_frames = 0; // Set default value
+    }
+
+    return cppGifOptions;
+}
 
 std::string jstringToString(JNIEnv *env, jstring jstr)
 {
@@ -239,6 +287,33 @@ void install(facebook::jsi::Runtime &jsiRuntime)
                                                        });
 
     jsiRuntime.global().setProperty(jsiRuntime, "publicKeys", move(publicKeys));
+
+
+    auto compressGif = Function::createFromHostFunction(jsiRuntime,
+                                                        PropNameID::forAscii(jsiRuntime,
+                                                                             "compressGif"),
+                                                        2,
+                                                        [](Runtime &runtime,
+                                                                const Value &thisValue,
+                                                                const Value *arguments,
+                                                                size_t count) -> Value {
+                                                            string filePath = arguments[0].getString(
+                                                                            runtime)
+                                                                    .utf8(
+                                                                            runtime);
+                                                            string destFilePathStr="file://data/user/0/com.keysexample/cache/compressed.gif";
+                                                            JNIEnv *jniEnv = GetJniEnv();
+
+                                                            Object options = arguments[1].getObject(runtime);
+                                                            GifOptions optionss = convertObjectToCppGifOptions(runtime, options);
+                                                             string compressedPath = GifsicleWrapper().compressGifCpp(filePath, destFilePathStr, optionss);
+                                                            return Value(runtime,
+                                                                         String::createFromUtf8(
+                                                                                 runtime, compressedPath));
+
+                                                        });
+
+    jsiRuntime.global().setProperty(jsiRuntime, "compressGif", move(compressGif));
 }
 
 extern "C" JNIEXPORT void JNICALL

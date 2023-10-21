@@ -48,6 +48,7 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
         ${PACKAGE_NAME}
         SHARED
         ./androidcpp/mediator.cpp
+            ./androidcpp/gifsicle_wrapper.cpp
             ./androidcpp/testutils.cpp
         ./cpp-adapter.cpp
         ../cpp/crypto.cpp
@@ -80,7 +81,6 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
 
     find_package(openssl REQUIRED CONFIG)
 
-    find_package(flatbuffers REQUIRED CONFIG)
 
     target_link_libraries(
         ${PACKAGE_NAME}
@@ -90,7 +90,6 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
         ReactAndroid::react_nativemodule_core
         android
         openssl::crypto
-            flatbuffers::flatbuffers
     )
 else()
     add_library(
@@ -98,6 +97,7 @@ else()
         SHARED
         ../../react-native/ReactCommon/jsi/jsi/jsi.cpp
         ./androidcpp/mediator.cpp
+            ./androidcpp/gifsicle_wrapper.cpp
             ./androidcpp/testutils.cpp
         ./cpp-adapter.cpp
         ../cpp/crypto.cpp

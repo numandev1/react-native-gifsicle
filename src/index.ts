@@ -35,15 +35,19 @@ const KeysTurbo: {
   secureFor(key: keyof KeyTurboSecuredType): string;
   publicKeys(): KeyTurboType;
 } & KeyTurboType = global as any;
-
+console.log(global.compressGif, 'sssscompressGif');
 Object.assign(KeysTurbo, {
   ...(Platform.OS === 'android'
     ? JSON.parse(KeysTurbo.publicKeys() as unknown as string)
     : KeysTurbo.publicKeys()),
 });
 
+// Object.assign(KeysTurbo, {
+//   compressGif: KeysTurboModule.compressGif,
+// });
+// console.log(global.compressGif, 'www');
 Object.assign(KeysTurbo, {
-  compressGif: KeysTurboModule.compressGif,
+  compressGif: global.compressGif,
 });
 
 export default KeysTurbo;
