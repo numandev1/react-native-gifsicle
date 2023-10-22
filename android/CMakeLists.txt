@@ -51,8 +51,6 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
             ./androidcpp/gifsicle_wrapper.cpp
             ./androidcpp/testutils.cpp
         ./cpp-adapter.cpp
-        ../cpp/crypto.cpp
-        ../cpp/decryptor.cpp
             ${SOURCES}
     )
 
@@ -89,7 +87,6 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
         ReactAndroid::reactnativejni
         ReactAndroid::react_nativemodule_core
         android
-        openssl::crypto
     )
 else()
     add_library(
@@ -100,8 +97,6 @@ else()
             ./androidcpp/gifsicle_wrapper.cpp
             ./androidcpp/testutils.cpp
         ./cpp-adapter.cpp
-        ../cpp/crypto.cpp
-        ../cpp/decryptor.cpp
     )
 
     include_directories(
@@ -124,6 +119,5 @@ else()
     target_link_libraries(
         ${PACKAGE_NAME}
         android
-        openssl::crypto
     )
 endif()

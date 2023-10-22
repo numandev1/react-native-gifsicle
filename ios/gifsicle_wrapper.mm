@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #include "gifsicle_wrapper.h"
 #include <string>
-#include <gifsicle.h>
 #include "testutils.h"
 #include <iostream>
 
@@ -61,7 +60,6 @@ string GifsicleWrapper::compressGifCpp(string sourceFile, string destFilePath,Gi
     NSString* filePathStr = pathWithoutFileUri(sourceFileNS);
     NSString* destFilePathStr = pathWithoutFileUri(destFilePathNS);
 
-    // Assuming animately::loadFile takes a std::string as argument
         const auto gif_bytes = [NSData dataWithContentsOfFile:filePathStr];
 
     auto* gif = Gif_FullReadBuffer(reinterpret_cast<const uint8_t*>([gif_bytes bytes]),

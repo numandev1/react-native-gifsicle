@@ -51,9 +51,9 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C files, open `example/ios/KeysExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-simple-jsi`.
+To edit the Objective-C files, open `example/ios/GifsicleExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-simple-jsi`.
 
-To edit the Kotlin files, open `example/android` in Android studio and find the source files at `reactnativeKeys` under `Android`.
+To edit the Kotlin files, open `example/android` in Android studio and find the source files at `reactnativeGifsicle` under `Android`.
 
 ### Commit message convention
 

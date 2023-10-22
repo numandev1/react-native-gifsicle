@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type { KeyTurboSecuredType, KeyTurboType } from './type';
+import type { gifsicleType } from './type';
 
 const LINKING_ERROR =
   `The package 'react-native-gifsicle' doesn't seem to be linked. Make sure: \n\n` +
@@ -11,12 +11,12 @@ const LINKING_ERROR =
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
 // Keep this to sync auto install with the native code
-const KeysModule = isTurboModuleEnabled
-  ? require('./spec/NativeKeys').default
-  : NativeModules.Keys;
+const GifsicleModule = isTurboModuleEnabled
+  ? require('./spec/NativeGifsicle').default
+  : NativeModules.GifsicleMain;
 
-const KeysTurboModule = KeysModule
-  ? KeysModule
+const GifsicleTurboModule = GifsicleModule
+  ? GifsicleModule
   : new Proxy(
       {},
       {
@@ -26,28 +26,11 @@ const KeysTurboModule = KeysModule
       }
     );
 
-const installed = KeysTurboModule.install();
+const installed = GifsicleTurboModule.install();
 if (!installed) {
   throw new Error(LINKING_ERROR);
 }
 
-const KeysTurbo: {
-  secureFor(key: keyof KeyTurboSecuredType): string;
-  publicKeys(): KeyTurboType;
-} & KeyTurboType = global as any;
-console.log(global.compressGif, 'sssscompressGif');
-Object.assign(KeysTurbo, {
-  ...(Platform.OS === 'android'
-    ? JSON.parse(KeysTurbo.publicKeys() as unknown as string)
-    : KeysTurbo.publicKeys()),
-});
+const GifsicleTurbo: gifsicleType = global as any;
 
-// Object.assign(KeysTurbo, {
-//   compressGif: KeysTurboModule.compressGif,
-// });
-// console.log(global.compressGif, 'www');
-Object.assign(KeysTurbo, {
-  compressGif: global.compressGif,
-});
-
-export default KeysTurbo;
+export default GifsicleTurbo;

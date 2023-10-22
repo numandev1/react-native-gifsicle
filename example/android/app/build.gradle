@@ -73,22 +73,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.keysexample"
+    namespace "com.gifsicleexample"
     defaultConfig {
-        resValue "string", "build_config_package", "com.keysexample"
-        applicationId "com.keysexample"
+        applicationId "com.gifsicleexample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
-
-packagingOptions {
-    pickFirst 'lib/x86/libcrypto.so'
-    pickFirst 'lib/x86_64/libcrypto.so'
-    pickFirst 'lib/armeabi-v7a/libcrypto.so'
-    pickFirst 'lib/arm64-v8a/libcrypto.so'
-  }
     signingConfigs {
         debug {
             storeFile file('debug.keystore')

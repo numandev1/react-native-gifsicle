@@ -65,7 +65,7 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
 
 project.ext.IS_EXAMPLE = true;
 project.ext.DEFAULT_FILE_NAME = "keys.production.json"
-apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNKeys.gradle"
+apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNGifsicle.gradle"
   
 
 /**

@@ -9,7 +9,6 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "verbatimModuleSyntax": false,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": [
@@ -21,14 +20,13 @@
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "noImplicitAny": true,
-    "noEmitOnError": true,
-    "removeComments": true
+    "verbatimModuleSyntax": true
   }
 }

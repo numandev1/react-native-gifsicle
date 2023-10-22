@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import RNKeys from 'react-native-gifsicle';
+import RNGifsicle from 'react-native-gifsicle';
 export default function App() {
   const [jniValue, setJniValue] = useState('');
   const [publicValue, setPublicValue] = useState('');
   useEffect(() => {
-    const value1 = RNKeys.secureFor('secure3');
+    const value1 = RNGifsicle.secureFor('secure3');
     console.log(value1, 'value1');
     setJniValue(value1);
-    const value2 = RNKeys.APP_NAME;
+    const value2 = RNGifsicle.APP_NAME;
     setPublicValue(value2);
   }, []);
   return (

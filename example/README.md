@@ -1,47 +1,79 @@
-## Get started
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-To try the playground out for yourself, run the following commands:
+# Getting Started
 
-```sh
-git clone <https://github.com/numandev1/react-native-gifsicle.git>
-cd example
-yarn
+>**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+
+## Step 1: Start the Metro Server
+
+First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+
+To start Metro, run the following command from the _root_ of your React Native project:
+
+```bash
+# using npm
+npm start
+
+# OR using Yarn
+yarn start
 ```
 
-### iOS
+## Step 2: Start your Application
 
-1. Open the example/ios/KeysExample.xcworkspace file with Xcode
-2. Change signing configuration to your developer account
-3. Select your device in the devices drop-down
-4. Hit run
+Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
-### Android
+### For Android
 
-1. Open the example/android/ folder with Android Studio
-2. Select your device in the devices drop-down
-3. Hit run
+```bash
+# using npm
+npm run android
 
-### Enable New Arch
-
-#### Android
-
-You will only need to update your android/gradle.properties file as follows:
-
-```diff
-# Use this property to enable support to the new architecture.
-# This will allow you to use TurboModules and the Fabric render in
-# your application. You should enable this flag either if you want
-# to write custom TurboModules/Fabric components OR use libraries that
-# are providing them.
-- newArchEnabled=false
-+ newArchEnabled=true
+# OR using Yarn
+yarn android
 ```
 
-#### IOS
+### For iOS
 
-You will only need to reinstall your pods by running pod install with the right flag:
+```bash
+# using npm
+npm run ios
 
-```sh
-# Run pod install with the flag:
-RCT_NEW_ARCH_ENABLED=1 bundle exec pod install
+# OR using Yarn
+yarn ios
 ```
+
+If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+
+This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+
+## Step 3: Modifying your App
+
+Now that you have successfully run the app, let's modify it.
+
+1. Open `App.tsx` in your text editor of choice and edit some lines.
+2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+
+   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+
+## Congratulations! :tada:
+
+You've successfully run and modified your React Native App. :partying_face:
+
+### Now what?
+
+- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+
+# Troubleshooting
+
+If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+
+# Learn More
+
+To learn more about React Native, take a look at the following resources:
+
+- [React Native Website](https://reactnative.dev) - learn more about React Native.
+- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
+- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
+- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
+- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.

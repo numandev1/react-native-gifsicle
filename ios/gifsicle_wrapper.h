@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string>
 #include <utility.h>
+#include <gifsicle.h>
 using namespace std;
 
 using namespace std;

@@ -1,5 +1,5 @@
 {
-  "name": "KeysExample",
+  "name": "GifsicleExample",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,17 +11,19 @@
     "android-build-assets": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-dev": "react-native run-android --variant=developmentDebug --appIdSuffix dev",
     "android-dev-kyc": "react-native run-android --variant=developmentDebug",
-    "ios-dev": "react-native run-ios --scheme=KeysExample-Dev --simulator='iPhone 14'",
+    "ios-dev": "react-native run-ios --scheme=GifsicleExample-Dev --simulator='iPhone 14'",
     "android-staging": "react-native run-android --variant=stagingDebug --appIdSuffix staging",
     "android-staging-prod": "react-native run-android --variant=stagingRelease --appIdSuffix staging",
-    "ios-staging": "react-native run-ios --scheme=KeysExample-Staging --simulator='iPhone 14'",
+    "ios-staging": "react-native run-ios --scheme=GifsicleExample-Staging --simulator='iPhone 14'",
     "android-prod": "react-native run-android --variant=productionRelease",
-    "ios-prod": "react-native run-ios --scheme=KeysExample-Production",
+    "ios-prod": "react-native run-ios --scheme=GifsicleExample-Production",
     "android-dev-prod": "react-native run-android --variant=developmentRelease"
   },
   "dependencies": {
+    "pretty-bytes": "^6.1.1",
     "react": "18.2.0",
     "react-native": "0.72.3",
+    "react-native-fs": "^2.20.0",
     "react-native-image-picker": "^7.0.0"
   },
   "devDependencies": {

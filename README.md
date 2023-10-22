@@ -63,18 +63,18 @@ We can Manage **secure**(protected) and **public** enviroment through **react-na
   - [Managed Expo](#managed-expo)
 - [Basic Usage](#basic-usage)
   - [Javascript](#javascript)
-    - [Public Keys](#public-keys)
-    - [Secure Keys](#secure-keys)
+    - [Public Gifsicle](#public-keys)
+    - [Secure Gifsicle](#secure-keys)
 - [Setup](#video)
   - [IOS](#ios)
   - [Android](#android)
 - [Native Usage](#native-usage)
   - [Android](#android-1)
-    - [Public Keys](#public-keys-1)
-    - [Secure Keys](#secure-keys-jni)
+    - [Public Gifsicle](#public-keys-1)
+    - [Secure Gifsicle](#secure-keys-jni)
   - [IOS](#ios-1)
-    - [Public Keys](#public-keys-2)
-    - [Secure Keys](#secure-keys-1)
+    - [Public Gifsicle](#public-keys-2)
+    - [Secure Gifsicle](#secure-keys-1)
 - [Different environments](#different-environments)
 - [Advanced Android Setup](#advanced-android-setup-1)
 - [Advanced IOS Setup](#ios-2)
@@ -105,7 +105,7 @@ expo install react-native-gifsicle
 
 Add `keys.development.json`, `keys.staging.json` and `keys.production.json` at project root directory
 
-Add the Keys plugin to your Expo config (`app.json`, `app.config.json` or `app.config.js`):
+Add the Gifsicle plugin to your Expo config (`app.json`, `app.config.json` or `app.config.js`):
 
 ```json
 {
@@ -197,7 +197,7 @@ Create a new file `keys.development.json` in the root of your React Native app a
     "BRANCH_API": "ABCDEF"
   },
   "public": {
-    "APP_NAME": "Keys Example",
+    "APP_NAME": "Gifsicle Example",
     "BUNDLE_ID": "com.example.rnkeys.dev",
     "ANDROID_CODE": "50",
     "PACKAGE_ID": "com.example.rnkeys.dev"
@@ -211,23 +211,23 @@ later on you can define other enviroment files like `keys.staging.json` and `key
 
 ## Javascript
 
-### Public Keys
+### Public Gifsicle
 
 ```js
-import Keys from 'react-native-gifsicle';
+import Gifsicle from 'react-native-gifsicle';
 
-Keys.API_URL; // https://example.com'
-Keys.URI_SCHEME; // fb://
+Gifsicle.API_URL; // https://example.com'
+Gifsicle.URI_SCHEME; // fb://
 ```
 
-### Secure Keys
+### Secure Gifsicle
 
 ```js
-import Keys from 'react-native-gifsicle';
+import Gifsicle from 'react-native-gifsicle';
 
-Keys.secureFor('API_TOKEN'); // 'ABCSE#$DDSD
-Keys.secureFor('GOOGLE_API_KEY'); // 'ABCSE#$DDSD
-Keys.secureFor('SECRET_KEY'); // 'ABCSE#$DDSD
+Gifsicle.secureFor('API_TOKEN'); // 'ABCSE#$DDSD
+Gifsicle.secureFor('GOOGLE_API_KEY'); // 'ABCSE#$DDSD
+Gifsicle.secureFor('SECRET_KEY'); // 'ABCSE#$DDSD
 ```
 
 Keep in mind It's [basically impossible to prevent users from reverse engineering mobile app secrets](https://rammic.github.io/2015/07/28/hiding-secrets-in-android-apps/) but this library is more secure.
@@ -265,9 +265,9 @@ if cocoapods are used in the project then pod has to be installed as well:
 - **Manual Link (iOS)**
 
   1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-  2. Go to `node_modules` ➜ `react-native-gifsicle` and add `Keys.xcodeproj`
-  3. Expand the `Keys.xcodeproj` ➜ `Products` folder
-  4. In the project navigator, select your project. Add `Keys.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+  2. Go to `node_modules` ➜ `react-native-gifsicle` and add `Gifsicle.xcodeproj`
+  3. Expand the `Gifsicle.xcodeproj` ➜ `Products` folder
+  4. In the project navigator, select your project. Add `Gifsicle.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
   5. And go the Build Settings tab. Make sure All is toggled on (instead of Basic)
   6. Look for Header Search Paths and add `$(SRCROOT)/../node_modules/react-native-gifsicle/ios/**` as `non-recursive`
 
@@ -280,9 +280,9 @@ With one extra step environment values can be exposed to "Info.plist" and Build 
    ![img](./media/2.png)
 2. save it under `ios` folder as "Config.xcconfig" with the following content:
 
-    ```
-    #include? "tmp.xcconfig"
-    ```
+   ```
+   #include? "tmp.xcconfig"
+   ```
 
 3. add the following to your ".gitignore":
 
@@ -344,13 +344,13 @@ Alternatively, you can define a map in `Pre-actions` associating builds with env
   **MainApplication.java**
 
   ```diff
-  + import com.reactnativekeysjsi.KeysPackage;
+  + import com.gifsicle.GifsiclePackage;
 
   @Override
   protected List<ReactPackage> getPackages() {
       return Arrays.asList(
             new MainReactPackage()
-  +        new KeysPackage()
+  +        new GifsiclePackage()
       );
   }
   ```
@@ -367,14 +367,14 @@ project.ext.keyFiles = [
   release: "keys.staging.json",
 ]
 
-apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNKeys.gradle"
+apply from: project(':react-native-gifsicle').projectDir.getPath() + "/RNGifsicle.gradle"
 ```
 
 ## Native Usage
 
 ### Android
 
-#### Public Keys
+#### Public Gifsicle
 
 you can only read jni key into java file.like this
 
@@ -416,10 +416,10 @@ defaultConfig {
 }
 ```
 
-#### Secure Keys (JNI)
+#### Secure Gifsicle (JNI)
 
 ```java
-import static com.reactnativekeysjsi.KeysModule.getSecureFor;
+import static com.gifsicle.GifsicleModule.getSecureFor;
 
 String secureValue = getSecureFor("BRANCH_KEY");   // key_test_omQ7YYKiq57vOqEJsdcsdfeEsiWkwxE
 ```
@@ -430,32 +430,31 @@ String secureValue = getSecureFor("BRANCH_KEY");   // key_test_omQ7YYKiq57vOqEJs
 - [2 files found with path '\*\*/libcrypto.so](#2-files-found-with-path-libcryptoso)
 - [Advanced Android Setup for applicationIdSuffix](#advanced-android-setup-1)
 
-
 ### iOS
 
-#### Public Keys
+#### Public Gifsicle
 
 Read variables declared in `keys.development.json` from your Obj-C classes like:
 
 ```objective-c
 // import header
-#import "Keys.h"
+#import "Gifsicle.h"
 
 // then read individual keys like:
-NSString *value = [Keys publicFor:@"API_URL"];   // https://example.com
+NSString *value = [Gifsicle publicFor:@"API_URL"];   // https://example.com
 
 // or just fetch all keys
-NSDictionary *allKeys = [Keys public_keys];
+NSDictionary *allGifsicle = [Gifsicle public_keys];
 ```
 
-#### Secure Keys
+#### Secure Gifsicle
 
 ```objective-c
 // import header
-#import "Keys.h"
+#import "Gifsicle.h"
 
 // then read individual keys like:
-NSString *value = [Keys secureFor:@"BRANCH_KEY"];   //key_test_omQ7YYKiq57vOqEJsdcsdfeEsiWkwxE
+NSString *value = [Gifsicle secureFor:@"BRANCH_KEY"];   //key_test_omQ7YYKiq57vOqEJsdcsdfeEsiWkwxE
 ```
 
 call, and use build cases in lowercase, like:
@@ -539,7 +538,7 @@ Troubleshooting
 
 ### Problems with Proguard
 
-When Proguard is enabled (which it is by default for Android release builds), it can rename the `BuildConfig` Java class in the minification process and prevent React Native Keys from referencing it. To avoid this, add an exception to `android/app/proguard-rules.pro`:
+When Proguard is enabled (which it is by default for Android release builds), it can rename the `BuildConfig` Java class in the minification process and prevent React Native Gifsicle from referencing it. To avoid this, add an exception to `android/app/proguard-rules.pro`:
 
     -keep class com.mypackage.BuildConfig { *; }
 

@@ -1,6 +1,6 @@
 {
   "name": "react-native-gifsicle",
-  "version": "0.7.6",
+  "version": "0.0.1",
   "description": "🔐 Make protected .ENVs variables",
   "main": "./src/index.ts",
   "source": "src/index",
@@ -32,7 +32,7 @@
     "example": "yarn --cwd example",
     "exampleExpo": "yarn --cwd exampleExpo",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn exampleExpo && yarn && yarn pluginTsc && yarn pods",
+    "bootstrap": "yarn example && yarn pods",
     "pluginTsc": "cd plugin && tsc",
     "pluginTsc-watch": "cd plugin && tsc --watch"
   },
@@ -70,22 +70,22 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@expo/config-plugins": "^7.2.5",
-    "@types/normalize-path": "^3.0.0",
-    "@types/xml2js": "^0.4.12",
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.2.2",
-    "@react-native-community/eslint-config": "^3.0.2",
+    "@expo/config-plugins": "^7.2.5",
+    "@react-native-community/eslint-config": "^3.2.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^28.1.2",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "0.70.0",
+    "@types/normalize-path": "^3.0.0",
+    "@types/react": "^18.2.31",
+    "@types/react-native": "^0.72.5",
+    "@types/xml2js": "^0.4.12",
     "commitlint": "^17.0.2",
     "del-cli": "^5.0.0",
-    "eslint": "^8.4.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-ft-flow": "^3.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-ft-flow": "^3.0.1",
+    "eslint-plugin-prettier": "^5.0.1",
     "jest": "^28.1.1",
     "metro-react-native-babel-preset": "^0.77.0",
     "pod-install": "^0.1.0",
@@ -95,10 +95,7 @@
     "react-native-builder-bob": "^0.21.3",
     "release-it": "^15.0.0",
     "turbo": "^1.10.7",
-    "typescript": "^5.0.2"
-  },
-  "resolutions": {
-    "@types/react": "17.0.21"
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
     "react": "*",
@@ -188,7 +185,7 @@
     "xml2js": "^0.6.2"
   },
   "codegenConfig": {
-    "name": "RNKeysSpec",
+    "name": "RNGifsicleSpec",
     "type": "modules",
     "jsSrcsDir": "src/spec"
   }

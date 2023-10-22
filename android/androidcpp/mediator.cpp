@@ -1,7 +1,6 @@
 
 #include <jni.h>
 #include <string>
-#include "crypto.h"
 #include <utility.h>
 #include <gifsicle.h>
 #include "testutils.h"
@@ -32,14 +31,6 @@ string jstring2string(JNIEnv *env, jstring jStr)
     env->DeleteLocalRef(stringJbytes);
     env->DeleteLocalRef(stringClass);
     return ret;
-}
-
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_reactnativekeysjsi_KeysModule_getJniJsonStringifyData(JNIEnv *env, jobject thiz, jstring key)
-{
-    auto *crypto = new Crypto();
-    string _key{jstring2string(env, key)};
-    return env->NewStringUTF(crypto->getJniJsonStringifyData(_key).c_str());
 }
 
 
@@ -86,12 +77,11 @@ GifOptions convertJavaToCppGifOptions(JNIEnv *env, jobject gifOptions)
     return cppGifOptions;
 }
 
-
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_reactnativekeysjsi_KeysModule_compressGifCpp(JNIEnv *env, jobject thiz, jstring filePath, jstring destFilePath, jobject gifOptions)
+Java_com_gifsicle_GifsicleModule_compressGifCpp(JNIEnv *env, jobject thiz, jstring filePath, jstring destFilePath, jobject gifOptions)
 {
-    std::string sourceFilePathStr{jstring2string(env,filePath)};
-    std::string destFilePathStr{jstring2string(env,destFilePath)};
+    std::string sourceFilePathStr{jstring2string(env, filePath)};
+    std::string destFilePathStr{jstring2string(env, destFilePath)};
 
     GifOptions options = convertJavaToCppGifOptions(env, gifOptions);
     string compressedPath = GifsicleWrapper().compressGifCpp(sourceFilePathStr, destFilePathStr, options);

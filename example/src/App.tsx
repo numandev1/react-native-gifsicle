@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
-import RNKeys from 'react-native-gifsicle';
-
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  Pressable,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
+import { stat } from 'react-native-fs';
+import RNGifsicle from 'react-native-gifsicle';
+import prettyBytes from 'pretty-bytes';
 import * as ImagePicker from 'react-native-image-picker';
 
 export default function App() {
-  const [jniValue] = useState(RNKeys.APP_NAME);
-  const [publicValue] = useState('');
+  const [sourceImage, setSourceImage] = useState('');
+  const [sourceSize, setSourceSize] = useState('');
+  const [destImage, setDestImage] = useState('');
+  const [destSize, setDestSize] = useState('');
+  const { width, height } = useWindowDimensions();
 
   const onPress = () => {
     ImagePicker.launchImageLibrary(
@@ -18,11 +29,18 @@ export default function App() {
           const source: any = result.assets[0];
           if (source) {
             const uri = source.uri;
-            console.log(RNKeys.compressGif, 'sss');
-            const _uri = uri;
-            console.log(_uri, 'uri');
-            const resultt = await RNKeys.compressGif(_uri, {});
-            console.log('uri', resultt);
+            setSourceImage(uri);
+            console.log('source uri=>', uri);
+            const sourceFileStat = await stat(uri);
+            setSourceSize(prettyBytes(sourceFileStat?.size || 0));
+            const compressedUri = await RNGifsicle.compressGif(uri, {
+              lossy: 200,
+              colors: 250,
+            });
+            console.log('compressed uri=>', compressedUri);
+            setDestImage(compressedUri);
+            const destFileStat = await stat(compressedUri);
+            setDestSize(prettyBytes(destFileStat?.size || 0));
           }
         }
       }
@@ -32,16 +50,37 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>KEY FROM SECURE (JNI): {jniValue}</Text>
-      <Text>KEY FROM PUBLIC: {publicValue}</Text>
-      <Pressable
-        style={{ padding: 15, backgroundColor: 'red' }}
-        onPress={onPress}
-      >
-        <Text>Test</Text>
+    <SafeAreaView style={styles.container}>
+      {!!sourceImage && (
+        <>
+          <Text style={styles.title}>Source Gif: {sourceSize}</Text>
+          <Image
+            source={{ uri: sourceImage }}
+            resizeMode="contain"
+            style={{
+              height: height * 0.3,
+              width: width,
+            }}
+          />
+        </>
+      )}
+      <Pressable style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>Select Image</Text>
       </Pressable>
-    </View>
+      {!!destImage && (
+        <>
+          <Text style={styles.title}>Compressed Gif: {destSize}</Text>
+          <Image
+            source={{ uri: destImage }}
+            resizeMode="contain"
+            style={{
+              height: height * 0.3,
+              width: width,
+            }}
+          />
+        </>
+      )}
+    </SafeAreaView>
   );
 }
 
@@ -49,6 +88,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  button: { padding: 15, backgroundColor: 'black', borderRadius: 8 },
+  buttonText: { color: '#FFFFFF', fontWeight: 'bold' },
 });

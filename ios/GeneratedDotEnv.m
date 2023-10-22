@@ -1,1 +1,0 @@
-#define DOT_ENV @{ @"APP_NAME":@"staging RNKEYS",@"BUNDLE_ID":@"com.example.rnkeys.staging",@"ANDROID_CODE":@"50",@"PACKAGE_ID":@"com.example.rnkeys.staging",@"public1":@"staging numan",@"public2":@"staging usman" };

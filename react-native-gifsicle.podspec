@@ -49,5 +49,4 @@ Pod::Spec.new do |s|
    end
   end
   
-  s.dependency "OpenSSL-Universal"
 end

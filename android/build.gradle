@@ -29,11 +29,11 @@ def safeExtGet(prop, fallback) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["Keys_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["Gifsicle_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Keys_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Gifsicle_" + name]).toInteger()
 }
 
 def resolveReactNativeDirectory() {
@@ -119,7 +119,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.reactnativekeysjsi"
+    namespace "com.gifsicle"
   } else {
     sourceSets {
       main {
@@ -223,7 +223,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "Keys"
-    codegenJavaPackageName = "com.reactnativekeysjsi"
+    libraryName = "Gifsicle"
+    codegenJavaPackageName = "com.gifsicle"
   }
 }

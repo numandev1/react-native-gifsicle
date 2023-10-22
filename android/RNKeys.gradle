@@ -39,7 +39,7 @@ def safeExtGet(prop, fallback) {
   project.ext.has(prop) ? project.ext.get(prop) : fallback
 }
 
-def loadKeys() {
+def loadGifsicle() {
   def flavor = getCurrentFlavor()
     def keysFile = ""
     def exportCommand = "";
@@ -124,5 +124,5 @@ def loadKeys() {
 }
 
 task keysCallCL(type: Exec) {
-  loadKeys();
+  loadGifsicle();
 }

@@ -14,9 +14,6 @@
 #include <gifsicle.h>
 #include "gifsicle_wrapper.h"
 
-#include "androidcpp/json.hpp"
-using json = nlohmann::json;
-
 using namespace facebook::jsi;
 using namespace std;
 
@@ -85,65 +82,7 @@ std::string jstringToString(JNIEnv *env, jstring jstr)
     return str;
 }
 
-// Convert Java map object to JSON string
-std::string jmapToJsonString(JNIEnv *env, jobject jmap)
-{
-    jclass jmapClass = env->GetObjectClass(jmap);
-    jmethodID jmapEntrySetMethod = env->GetMethodID(jmapClass, "entrySet", "()Ljava/util/Set;");
 
-    jclass jsetClass = env->FindClass("java/util/Set");
-    jmethodID jsetIteratorMethod = env->GetMethodID(jsetClass, "iterator", "()Ljava/util/Iterator;");
-
-    jclass jiteratorClass = env->FindClass("java/util/Iterator");
-    jmethodID jiteratorHasNextMethod = env->GetMethodID(jiteratorClass, "hasNext", "()Z");
-    jmethodID jiteratorNextMethod = env->GetMethodID(jiteratorClass, "next", "()Ljava/lang/Object;");
-
-    jclass jmapEntryClass = env->FindClass("java/util/Map$Entry");
-    jmethodID jmapEntryGetMethod = env->GetMethodID(jmapEntryClass, "getValue", "()Ljava/lang/Object;");
-
-    jmethodID jtoStringMethod = env->GetMethodID(env->FindClass("java/lang/Object"), "toString", "()Ljava/lang/String;");
-
-    // Create an empty JSON object
-    nlohmann::json jsonObj = nlohmann::json::object();
-
-    // Get the entry set of the Java map object
-    jobject jentrySet = env->CallObjectMethod(jmap, jmapEntrySetMethod);
-    jobject jiterator = env->CallObjectMethod(jentrySet, jsetIteratorMethod);
-    jmethodID jmapEntryGetKeyMethod = env->GetMethodID(jmapEntryClass, "getKey", "()Ljava/lang/Object;");
-
-    // Iterate over the map entries and add them to the JSON object
-    while (env->CallBooleanMethod(jiterator, jiteratorHasNextMethod))
-    {
-        jobject jentry = env->CallObjectMethod(jiterator, jiteratorNextMethod);
-
-        // Get the key object and convert it to a string
-        jobject jkey = env->CallObjectMethod(jentry, jmapEntryGetKeyMethod);
-        jstring jstrKey = (jstring)env->CallObjectMethod(jkey, jtoStringMethod);
-        std::string strKey = jstringToString(env, jstrKey);
-
-        // Get the value object and convert it to a string
-        jobject jvalue = env->CallObjectMethod(jentry, jmapEntryGetMethod);
-        jstring jstrValue = (jstring)env->CallObjectMethod(jvalue, jtoStringMethod);
-        std::string strValue = jstringToString(env, jstrValue);
-
-        // Add the key-value pair to the JSON object
-        jsonObj[strKey] = strValue;
-
-        // Release local references
-        env->DeleteLocalRef(jentry);
-        env->DeleteLocalRef(jkey);
-        env->DeleteLocalRef(jvalue);
-        env->DeleteLocalRef(jstrKey);
-        env->DeleteLocalRef(jstrValue);
-    }
-
-    // Release local references
-    env->DeleteLocalRef(jentrySet);
-    env->DeleteLocalRef(jiterator);
-
-    // Return the JSON object as a string
-    return jsonObj.dump();
-}
 /**
  * A simple callback function that allows us to detach current JNI Environment
  * when the thread
@@ -229,66 +168,6 @@ static jstring string2jstring(JNIEnv *env, const string &str)
 
 void install(facebook::jsi::Runtime &jsiRuntime)
 {
-    auto secureFor = Function::createFromHostFunction(jsiRuntime,
-                                                      PropNameID::forAscii(jsiRuntime,
-                                                                           "secureFor"),
-                                                      1,
-                                                      [](Runtime &runtime,
-                                                         const Value &thisValue,
-                                                         const Value *arguments,
-                                                         size_t count) -> Value
-                                                      {
-                                                          string key = arguments[0].getString(
-                                                                                       runtime)
-                                                                           .utf8(
-                                                                               runtime);
-
-                                                          JNIEnv *jniEnv = GetJniEnv();
-
-                                                          java_class = jniEnv->GetObjectClass(
-                                                              java_object);
-                                                          jmethodID jniMethod = jniEnv->GetStaticMethodID(java_class, "getSecureFor", "(Ljava/lang/String;)Ljava/lang/String;");
-
-                                                          jstring jstr1 = string2jstring(jniEnv, key);
-                                                          jobject result = jniEnv->CallStaticObjectMethod(java_class, jniMethod, jstr1);
-                                                          const char* str = jniEnv->GetStringUTFChars((jstring)result, NULL);
-
-                                                          return Value(runtime,
-                                                                       String::createFromUtf8(
-                                                                           runtime, str));
-                                                      });
-
-    jsiRuntime.global().setProperty(jsiRuntime, "secureFor", move(secureFor));
-
-    auto publicKeys = Function::createFromHostFunction(jsiRuntime,
-                                                       PropNameID::forAscii(jsiRuntime,
-                                                                            "publicKeys"),
-                                                       0,
-                                                       [](Runtime &runtime,
-                                                          const Value &thisValue,
-                                                          const Value *arguments,
-                                                          size_t count) -> Value
-                                                       {
-                                                           JNIEnv *jniEnv = GetJniEnv();
-
-                                                           java_class = jniEnv->GetObjectClass(
-                                                               java_object);
-                                                           jmethodID get = jniEnv->GetMethodID(
-                                                               java_class, "getPublicKeys",
-                                                               "()Ljava/util/Map;");
-
-                                                           jobject map_obj = jniEnv->CallObjectMethod(java_object, get);
-
-                                                           std::string jsonString = jmapToJsonString(jniEnv, map_obj);
-
-                                                           return Value(runtime,
-                                                                        String::createFromUtf8(
-                                                                            runtime, jsonString));
-                                                       });
-
-    jsiRuntime.global().setProperty(jsiRuntime, "publicKeys", move(publicKeys));
-
-
     auto compressGif = Function::createFromHostFunction(jsiRuntime,
                                                         PropNameID::forAscii(jsiRuntime,
                                                                              "compressGif"),
@@ -301,7 +180,7 @@ void install(facebook::jsi::Runtime &jsiRuntime)
                                                                             runtime)
                                                                     .utf8(
                                                                             runtime);
-                                                            string destFilePathStr="file://data/user/0/com.keysexample/cache/compressed.gif";
+                                                            string destFilePathStr="file://data/user/0/com.GifsicleExample/cache/compressed.gif";
                                                             JNIEnv *jniEnv = GetJniEnv();
 
                                                             Object options = arguments[1].getObject(runtime);
@@ -317,7 +196,7 @@ void install(facebook::jsi::Runtime &jsiRuntime)
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_reactnativekeysjsi_KeysModule_nativeInstall(JNIEnv *env, jobject thiz, jlong jsi)
+Java_com_gifsicle_GifsicleModule_nativeInstall(JNIEnv *env, jobject thiz, jlong jsi)
 {
 
     auto runtime = reinterpret_cast<facebook::jsi::Runtime *>(jsi);
