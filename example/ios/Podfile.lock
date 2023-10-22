@@ -379,6 +379,11 @@ PODS:
     - OpenSSL-Universal
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+    - react-native-gifsicle/lcdfgif (= 0.7.6)
+  - react-native-gifsicle/lcdfgif (0.7.6):
+    - OpenSSL-Universal
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - react-native-image-picker (7.0.0):
     - React-Core
   - React-NativeModulesApple (0.72.3):
@@ -699,7 +704,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 59d1eb03af7d30b7d66589c410f13151271e8006
   React-jsinspector: b511447170f561157547bc0bef3f169663860be7
   React-logger: c5b527272d5f22eaa09bb3c3a690fee8f237ae95
-  react-native-gifsicle: 8364d88e0754c461d3786be743fc2f5fadec22dd
+  react-native-gifsicle: 513345fd29261d3a8268fc8ab0114b256bc4a705
   react-native-image-picker: ddbbe4d226d9c82a82360f5de66bf71a657a42e6
   React-NativeModulesApple: c57f3efe0df288a6532b726ad2d0322a9bf38472
   React-perflogger: 6bd153e776e6beed54c56b0847e1220a3ff92ba5

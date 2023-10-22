@@ -1104,7 +1104,7 @@ merger_flatten(Gt_Frameset *fset, int f1, int f2)
       merger_flatten(nest, 0, nest->count - 1);
     }
 
-    if (FRAME(fset, i).use > 0)
+    if (FRAME(fset, i).interlacing > 0)
       merger_add(&FRAME(fset, i));
   }
 }

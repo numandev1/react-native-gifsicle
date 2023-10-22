@@ -143,7 +143,14 @@ static void install(jsi::Runtime &jsiRuntime, Keys *_Keys) {
 + (NSString *)compressGif: (NSString *)filePath options:(NSDictionary*) options {
       @try {
           GifsicleWrapper wrapper;
-                 NSString *destFilePath = @"file:///Users/apple/Library/Developer/CoreSimulator/Devices/9B4BAC0C-FE22-4C0E-BB73-66DD5CA6B091/data/Containers/Data/Application/887C28DB-54A1-4B76-A8AA-060A655B8B52/tmp/compressed.gif";
+       
+          
+          NSUUID *uuid = [NSUUID UUID];
+          NSString *imageNameWihtoutExtension = [uuid UUIDString];
+          NSString *imageName=[imageNameWihtoutExtension stringByAppendingPathExtension:@"gif"];
+          NSString *destFilePath =
+              [NSTemporaryDirectory() stringByAppendingPathComponent:imageName];
+          
 
                  // Convert NSString to std::string
                  std::string sourceFile = [filePath UTF8String];

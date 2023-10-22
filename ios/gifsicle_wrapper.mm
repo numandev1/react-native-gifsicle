@@ -25,10 +25,23 @@ NSString* pathWithoutFileUri(NSString* filePath) {
     return filePath;
 }
 
-NSString* slashifyFilePath(NSString* filePath) {
-    if (![filePath hasPrefix:@"/"]) {
-        filePath = [NSString stringWithFormat:@"file:///%@", filePath];
+NSString* slashifyFilePath(NSString *filePath) {
+    if (![filePath isEqualToString:@""]) {
+        NSError *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^/+" options:0 error:&error];
+        
+        if (error == nil) {
+            NSString *modifiedFilePath = [regex stringByReplacingMatchesInString:filePath options:0 range:NSMakeRange(0, [filePath length]) withTemplate:@"file:///"];
+            
+            if (![modifiedFilePath hasPrefix:@"file:///"]) {
+                // If not, prepend "file:///" to the path
+                modifiedFilePath = [NSString stringWithFormat:@"file:///%@", modifiedFilePath];
+            }
+            
+            return modifiedFilePath;
+        }
     }
+    
     return filePath;
 }
 
