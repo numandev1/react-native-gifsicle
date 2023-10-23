@@ -33,14 +33,25 @@ export default function App() {
             console.log('source uri=>', uri);
             const sourceFileStat = await stat(uri);
             setSourceSize(prettyBytes(sourceFileStat?.size || 0));
-            const compressedUri = await RNGifsicle.compressGif(uri, {
-              lossy: 200,
-              colors: 250,
-            });
-            console.log('compressed uri=>', compressedUri);
-            setDestImage(compressedUri);
-            const destFileStat = await stat(compressedUri);
-            setDestSize(prettyBytes(destFileStat?.size || 0));
+            const compressedUri = await RNGifsicle.compressGif(
+              uri,
+              {
+                lossy: 200,
+                colors: 250,
+                // scale_x: 2,
+                // scale_y: 2,
+                // optimize:3
+                // height: 250,
+                // width: 300,
+              },
+              (err, result) => {
+                console.log(err, result, 'callback');
+              }
+            );
+            // console.log('compressed uri=>', compressedUri);
+            // setDestImage(compressedUri);
+            // const destFileStat = await stat(compressedUri);
+            // setDestSize(prettyBytes(destFileStat?.size || 0));
           }
         }
       }

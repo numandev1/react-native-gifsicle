@@ -69,16 +69,8 @@ string GifsicleWrapper::compressGifCpp(string sourceFile, string destFilePath,Gi
 
         GifBuffer buffer;
         COptions coptions;
-//        parse_options(options, coptions);
-    
-    GifOptions _options;
-    _options.lossy = 200;
-    _options.optimize = 3;
-    _options.reduce_frames = 0;
-    _options.colors = 256;
-    _options.scale_x = 1;
-    _options.scale_y = 1;
-    parse_options(options, coptions);
+
+        parse_options(options, coptions);
     
 
         gifsicle_main(coptions.count(), coptions.options(), gif, &buffer.data, &buffer.size);

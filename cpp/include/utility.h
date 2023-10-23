@@ -11,6 +11,8 @@ struct GifOptions
     size_t scale_y;
     size_t colors;
     size_t reduce_frames;
+    size_t height;
+    size_t width;
 };
 
 class COptions

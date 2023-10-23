@@ -73,23 +73,42 @@ bool parse_options(const GifOptions& gif_options, COptions& options)
     const auto lossy = "--lossy=" + value(gif_options.lossy);
     options.add_option(lossy.c_str());
 
-    if (gif_options.optimize < 1 || gif_options.optimize > 3)
-        return false;
-
     const auto optimize = "-O" + value(gif_options.optimize);
+    if(gif_options.optimize>0 && gif_options.optimize <=3)
     options.add_option(optimize.c_str());
 
     const auto scale_value = value(gif_options.scale_x) + "x" + value(gif_options.scale_y);
+    if(gif_options.scale_x>0&&gif_options.scale_y>0)
     options.add_option("--scale", scale_value.c_str());
 
-    if (gif_options.colors < 2 || gif_options.colors > 256)
-        return false;
-
     const auto colors_value = value(gif_options.colors);
+    if(gif_options.colors>=2 && gif_options.colors <= 256)
     options.add_option("--colors", colors_value.c_str());
 
     const auto reduce_value = "#%" + value(gif_options.reduce_frames);
+    if(gif_options.reduce_frames>0)
     options.add_option("--delete", reduce_value.c_str());
+    
+
+    if(gif_options.width>0&&gif_options.height>0)
+    {
+        const auto resize_fit_value = value(gif_options.width) + "x" + value(gif_options.height);
+        const auto resize_fit = "--resize-fit=" + resize_fit_value;
+        options.add_option(resize_fit.c_str());
+    }
+    else if (gif_options.width>0)
+    {
+        const auto resize_width_value = value(gif_options.width);
+        const auto resize_width = "--resize-width=" + resize_width_value;
+        options.add_option(resize_width.c_str());
+    }
+    else if (gif_options.height>0)
+    {
+        const auto resize_height_value = value(gif_options.height);
+        const auto resize_height = "--resize-height=" + resize_height_value;
+        options.add_option(resize_height.c_str());
+    }
+    
 
     return true;
 }

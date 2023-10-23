@@ -6,6 +6,7 @@
 #import "YeetJSIUtils.h"
 #import <React/RCTBridge+Private.h>
 #import "gifsicle_wrapper.h"
+#include <thread>
 
 using namespace facebook::jsi;
 using namespace std;
@@ -47,15 +48,38 @@ static void install(jsi::Runtime &jsiRuntime, GifsicleMain *_Gifsicle) {
     auto compressGif = Function::createFromHostFunction(jsiRuntime,
                                                     PropNameID::forAscii(jsiRuntime,
                                                                          "compressGif"),
-                                                    2,
+                                                    3,
                                                       [_Gifsicle](Runtime &runtime,
                                                              const Value &thisValue,
                                                              const Value *arguments,
                                                              size_t count) -> Value {
-        NSString *filePath = convertJSIStringToNSString(runtime, arguments[0].getString(runtime));
-        NSDictionary *options = convertJSIObjectToNSDictionary(runtime, arguments[1].getObject(runtime));
-        NSString *result = [GifsicleMain compressGif:filePath options:options];
-        return Value(runtime, convertNSStringToJSIString(runtime, result));
+       
+//        NSString *result = [GifsicleMain compressGif:filePath options:options];
+//        return Value(runtime, convertNSStringToJSIString(runtime, result));
+        
+        auto userCallbackRef = std::make_shared<jsi::Object>(arguments[2].getObject(runtime));
+
+//           auto f = [&runtime](shared_ptr<Object> userCallbackRef) {
+//               NSString *filePath = convertJSIStringToNSString(runtime, arguments[0].getString(runtime));
+//               NSDictionary *options = convertJSIObjectToNSDictionary(runtime, arguments[1].getObject(runtime));
+//               NSString *result = [GifsicleMain compressGif:filePath options:options];
+//               auto val = jsi::String::createFromUtf8(runtime, std::to_string(std::rand()));
+//               auto val=convertNSStringToJSIString(runtime,result);
+//               auto val = String::createFromUtf8(runtime, "hello world");
+//               auto error = Value::undefined();
+//               userCallbackRef->asFunction(runtime).call(runtime, error, val);
+//           };
+        
+        auto f = [&runtime](shared_ptr<Object> userCallbackRef) {
+                            auto val = String::createFromUtf8(runtime, "hello world");
+                            auto error = Value::undefined();
+                            userCallbackRef->asFunction(runtime).call(runtime, val);
+                        };
+
+           std::thread thread_object(f,userCallbackRef);
+           thread_object.detach();
+
+           return Value::undefined();
         
     });
     
@@ -68,10 +92,13 @@ static void install(jsi::Runtime &jsiRuntime, GifsicleMain *_Gifsicle) {
 
     // Set default values
     options.lossy = 200;
-    options.optimize = 1;
+    options.optimize = 3;
     options.colors = 256;
-    options.scale_x = 1;
-    options.scale_y = 1;
+    options.scale_x = 0;
+    options.scale_y = 0;
+    options.reduce_frames=0;
+    options.width = 0;
+    options.height = 0;
 
     // Check if the dictionary contains Gifsicle and update the options accordingly
     NSNumber *lossyValue = dictionary[@"lossy"];
@@ -97,6 +124,21 @@ static void install(jsi::Runtime &jsiRuntime, GifsicleMain *_Gifsicle) {
     NSNumber *scaleYValue = dictionary[@"scale_y"];
     if (scaleYValue != nil) {
         options.scale_y = [scaleYValue integerValue];
+    }
+    
+    NSNumber *reduceFramesValue = dictionary[@"reduce_frames"];
+    if (reduceFramesValue != nil) {
+        options.reduce_frames = [reduceFramesValue integerValue];
+    }
+    
+    NSNumber *widthValue = dictionary[@"width"];
+    if (widthValue != nil) {
+        options.width = [widthValue integerValue];
+    }
+    
+    NSNumber *heightValue = dictionary[@"height"];
+    if (heightValue != nil) {
+        options.height = [heightValue integerValue];
     }
 
     return options;
