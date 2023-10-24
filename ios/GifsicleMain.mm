@@ -5,8 +5,16 @@
 #import <sys/utsname.h>
 #import "YeetJSIUtils.h"
 #import <React/RCTBridge+Private.h>
-#import "gifsicle_wrapper.h"
-#include <thread>
+#import "../cpp/bindings.h"
+#include <ThreadPool.h>
+#include "macros.h"
+#include <gifsicleutil.h>
+
+
+#import <React/RCTUtils.h>
+#import <ReactCommon/RCTTurboModule.h>
+#include <ReactCommon/CallInvoker.h>
+
 
 using namespace facebook::jsi;
 using namespace std;
@@ -15,6 +23,7 @@ using namespace std;
 
 @synthesize bridge = _bridge;
 @synthesize methodQueue = _methodQueue;
+string cacheDirStr;
 
 RCT_EXPORT_MODULE()
 
@@ -35,146 +44,76 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install)
     if (jsiRuntime == nil) {
         return @false;
     }
-
-//    example::install(*(facebook::jsi::Runtime *)jsiRuntime);
-    install(*(facebook::jsi::Runtime *)jsiRuntime, self);
+    
+    auto &runtime = *jsiRuntime;
+    auto callInvoker = bridge.jsCallInvoker;
+    
+    numandev::install(runtime, callInvoker, [NSTemporaryDirectory() UTF8String]);
+//    install(runtime, callInvoker,[NSTemporaryDirectory() UTF8String], self);
   
    
     return @true;
 }
+
+
     
-static void install(jsi::Runtime &jsiRuntime, GifsicleMain *_Gifsicle) {
-    
-    auto compressGif = Function::createFromHostFunction(jsiRuntime,
-                                                    PropNameID::forAscii(jsiRuntime,
-                                                                         "compressGif"),
-                                                    3,
-                                                      [_Gifsicle](Runtime &runtime,
-                                                             const Value &thisValue,
-                                                             const Value *arguments,
-                                                             size_t count) -> Value {
-       
-//        NSString *result = [GifsicleMain compressGif:filePath options:options];
-//        return Value(runtime, convertNSStringToJSIString(runtime, result));
-        
-        auto userCallbackRef = std::make_shared<jsi::Object>(arguments[2].getObject(runtime));
-
-//           auto f = [&runtime](shared_ptr<Object> userCallbackRef) {
-//               NSString *filePath = convertJSIStringToNSString(runtime, arguments[0].getString(runtime));
-//               NSDictionary *options = convertJSIObjectToNSDictionary(runtime, arguments[1].getObject(runtime));
-//               NSString *result = [GifsicleMain compressGif:filePath options:options];
-//               auto val = jsi::String::createFromUtf8(runtime, std::to_string(std::rand()));
-//               auto val=convertNSStringToJSIString(runtime,result);
-//               auto val = String::createFromUtf8(runtime, "hello world");
-//               auto error = Value::undefined();
-//               userCallbackRef->asFunction(runtime).call(runtime, error, val);
-//           };
-        
-        auto f = [&runtime](shared_ptr<Object> userCallbackRef) {
-                            auto val = String::createFromUtf8(runtime, "hello world");
-                            auto error = Value::undefined();
-                            userCallbackRef->asFunction(runtime).call(runtime, val);
-                        };
-
-           std::thread thread_object(f,userCallbackRef);
-           thread_object.detach();
-
-           return Value::undefined();
-        
-    });
-    
-    jsiRuntime.global().setProperty(jsiRuntime, "compressGif", move(compressGif));
-    
-}
-
-+ (GifOptions)gifOptionsFromDictionary:(NSDictionary *)dictionary {
-    GifOptions options;
-
-    // Set default values
-    options.lossy = 200;
-    options.optimize = 3;
-    options.colors = 256;
-    options.scale_x = 0;
-    options.scale_y = 0;
-    options.reduce_frames=0;
-    options.width = 0;
-    options.height = 0;
-
-    // Check if the dictionary contains Gifsicle and update the options accordingly
-    NSNumber *lossyValue = dictionary[@"lossy"];
-    if (lossyValue != nil) {
-        options.lossy = [lossyValue integerValue];
-    }
-
-    NSNumber *optimizeValue = dictionary[@"optimize"];
-    if (optimizeValue != nil) {
-        options.optimize = [optimizeValue integerValue];
-    }
-
-    NSNumber *colorsValue = dictionary[@"colors"];
-    if (colorsValue != nil) {
-        options.colors = [colorsValue integerValue];
-    }
-
-    NSNumber *scaleXValue = dictionary[@"scale_x"];
-    if (scaleXValue != nil) {
-        options.scale_x = [scaleXValue integerValue];
-    }
-
-    NSNumber *scaleYValue = dictionary[@"scale_y"];
-    if (scaleYValue != nil) {
-        options.scale_y = [scaleYValue integerValue];
-    }
-    
-    NSNumber *reduceFramesValue = dictionary[@"reduce_frames"];
-    if (reduceFramesValue != nil) {
-        options.reduce_frames = [reduceFramesValue integerValue];
-    }
-    
-    NSNumber *widthValue = dictionary[@"width"];
-    if (widthValue != nil) {
-        options.width = [widthValue integerValue];
-    }
-    
-    NSNumber *heightValue = dictionary[@"height"];
-    if (heightValue != nil) {
-        options.height = [heightValue integerValue];
-    }
-
-    return options;
-}
-
-+ (NSString *)compressGif: (NSString *)filePath options:(NSDictionary*) options {
-      @try {
-          GifsicleWrapper wrapper;
-       
-          
-          NSUUID *uuid = [NSUUID UUID];
-          NSString *imageNameWihtoutExtension = [uuid UUIDString];
-          NSString *imageName=[imageNameWihtoutExtension stringByAppendingPathExtension:@"gif"];
-          NSString *destFilePath =
-              [NSTemporaryDirectory() stringByAppendingPathComponent:imageName];
-          
-
-                 // Convert NSString to string
-                 string sourceFile = [filePath UTF8String];
-                 string destFile = [destFilePath UTF8String];
-
-                 // Assuming you have a similar conversion method for gifOptions
-                  GifOptions gifOptions = [GifsicleMain gifOptionsFromDictionary:options];
-
-                 // Perform your operation with C++ strings
-                 string result = GifsicleWrapper().compressGifCpp(sourceFile, destFile, gifOptions);
-                
-                 // Convert the result back to NSString
-                 NSString *resultObjC = [NSString stringWithUTF8String:result.c_str()];
-
-                 return resultObjC;
-      }
-      @catch (NSException *exception) {
-          return @"";
-      }
-  }
+//static void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker, const char *cacheDirPath, GifsicleMain *_Gifsicle) {
+//    auto pool = std::make_shared<ThreadPool>();
+//    cacheDirStr=cacheDirPath;
+//    auto compressGif = HOSTFN("compressGif", 2)
+//      {
+//        if (sizeof(args) < 2)
+//        {
+//          throw jsi::JSError(rt, "[react-native-gifsicle][compressGif] Incorrect parameter count");
+//          return {};
+//        }
+//
+//         
+//          NSString *_filePath = convertJSIStringToNSString(rt, args[0].getString(rt));
+//          string filePath = [_filePath UTF8String];
+//
+//          GifOptions gifOptions = gifsicle_util::jsiObjectToGifOptions(rt, args[1].getObject(rt));
+//         
+//                     
+//
+//        auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+//        auto promise = promiseCtr.callAsConstructor(rt, HOSTFN("executor", 2) {
+//          auto resolve = std::make_shared<jsi::Value>(rt, args[0]);
+//          auto reject = std::make_shared<jsi::Value>(rt, args[1]);
+//
+//          auto task =
+//            [&rt,&jsCallInvoker, resolve, reject, &gifOptions, &filePath]()
+//          {
+//            try
+//            {
+//                
+//               string destFilePath= gifsicle_util::getDestFilePath(cacheDirStr);
+//               string result = GifsicleWrapper().compressGifCpp(filePath, destFilePath, gifOptions);
+//              
+//
+//                jsCallInvoker->invokeAsync([&rt, resolve, reject, result]
+//                {
+//                    resolve->asObject(rt).asFunction(rt).call(rt, std::move(result));
+//                 });
+//            }
+//            catch (std::exception &exc)
+//            {
+//                jsCallInvoker->invokeAsync([&rt, err = exc.what(), reject]
+//                                   {
+//                throw jsi::JSError(rt, err);
+//              });
+//            }
+//          };
+//          pool->queueWork(task);
+//          return {};
+//        }));
+//
+//        return promise;
+//      });
+//    
+//    rt.global().setProperty(rt, "compressGif", std::move(compressGif));
+//    
+//}
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED

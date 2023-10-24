@@ -68,3 +68,4 @@ src/type.ts
 cpp/crypto.cpp
 android/src/main/java/com/gifsicle/PrivateKey.java
 3rd_party
+vendor

@@ -1,9 +1,9 @@
-#include "testutils.h"
+#include "gifsicleutil.h"
 
 #include <cstdlib>
 #include <fstream>
 
-namespace animately
+namespace gifsicle_util
 {
 
 std::string testDirectoryPath()
@@ -60,4 +60,4 @@ bool saveFile(const std::byte* buffer, size_t size,
   return true;
 }
 
-}  // namespace animately
+}  // namespace gifsicle_util

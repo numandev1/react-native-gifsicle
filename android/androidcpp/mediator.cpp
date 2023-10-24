@@ -3,7 +3,7 @@
 #include <string>
 #include <utility.h>
 #include <gifsicle.h>
-#include "testutils.h"
+#include "gifsicleutil.h"
 #include <filesystem>
 #include <android/log.h>
 #include <iostream>
@@ -77,14 +77,14 @@ GifOptions convertJavaToCppGifOptions(JNIEnv *env, jobject gifOptions)
     return cppGifOptions;
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_gifsicle_GifsicleModule_compressGifCpp(JNIEnv *env, jobject thiz, jstring filePath, jstring destFilePath, jobject gifOptions)
-{
-    std::string sourceFilePathStr{jstring2string(env, filePath)};
-    std::string destFilePathStr{jstring2string(env, destFilePath)};
-
-    GifOptions options = convertJavaToCppGifOptions(env, gifOptions);
-    string compressedPath = GifsicleWrapper().compressGifCpp(sourceFilePathStr, destFilePathStr, options);
-    jstring result = env->NewStringUTF(compressedPath.c_str());
-    return result;
-}
+//extern "C" JNIEXPORT jstring JNICALL
+//Java_com_gifsicle_GifsicleModule_compressGifCpp(JNIEnv *env, jobject thiz, jstring filePath, jstring destFilePath, jobject gifOptions)
+//{
+//    std::string sourceFilePathStr{jstring2string(env, filePath)};
+//    std::string destFilePathStr{jstring2string(env, destFilePath)};
+//
+//    GifOptions options = convertJavaToCppGifOptions(env, gifOptions);
+//    string compressedPath = GifsicleWrapper().compressGifCpp(sourceFilePathStr, destFilePathStr, options);
+//    jstring result = env->NewStringUTF(compressedPath.c_str());
+//    return result;
+//}

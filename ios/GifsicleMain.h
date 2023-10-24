@@ -8,6 +8,7 @@
 @interface GifsicleMain : NSObject <NativeGifsicleSpec>
 #else
 #import <React/RCTBridgeModule.h>
+#import <React/RCTInvalidating.h>
 
 @interface GifsicleMain : NSObject <RCTBridgeModule>
 #endif

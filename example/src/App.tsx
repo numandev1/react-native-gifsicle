@@ -6,6 +6,7 @@ import {
   Pressable,
   Image,
   useWindowDimensions,
+  View,
 } from 'react-native';
 import { stat } from 'react-native-fs';
 import RNGifsicle from 'react-native-gifsicle';
@@ -33,25 +34,21 @@ export default function App() {
             console.log('source uri=>', uri);
             const sourceFileStat = await stat(uri);
             setSourceSize(prettyBytes(sourceFileStat?.size || 0));
-            const compressedUri = await RNGifsicle.compressGif(
-              uri,
-              {
-                lossy: 200,
-                colors: 250,
-                // scale_x: 2,
-                // scale_y: 2,
-                // optimize:3
-                // height: 250,
-                // width: 300,
-              },
-              (err, result) => {
-                console.log(err, result, 'callback');
-              }
-            );
-            // console.log('compressed uri=>', compressedUri);
-            // setDestImage(compressedUri);
-            // const destFileStat = await stat(compressedUri);
-            // setDestSize(prettyBytes(destFileStat?.size || 0));
+            const compressedUri = await RNGifsicle.compressGif(uri, {
+              // lossy: 100,
+              // colors: 250,
+              // scale_x: 2,
+              // scale_y: 2,
+              // optimize:3
+              // height: 250,
+              // width: 300,
+            });
+            console.log(compressedUri, 'compressedUri');
+
+            console.log('compressed uri=>', compressedUri);
+            setDestImage(compressedUri);
+            const destFileStat = await stat(compressedUri);
+            setDestSize(prettyBytes(destFileStat?.size || 0));
           }
         }
       }
@@ -62,35 +59,39 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!!sourceImage && (
-        <>
-          <Text style={styles.title}>Source Gif: {sourceSize}</Text>
-          <Image
-            source={{ uri: sourceImage }}
-            resizeMode="contain"
-            style={{
-              height: height * 0.3,
-              width: width,
-            }}
-          />
-        </>
-      )}
+      <View style={styles.section}>
+        {!!sourceImage && (
+          <>
+            <Text style={styles.title}>Source Gif: {sourceSize}</Text>
+            <Image
+              source={{ uri: sourceImage }}
+              resizeMode="contain"
+              style={{
+                height: height * 0.3,
+                width: width,
+              }}
+            />
+          </>
+        )}
+      </View>
       <Pressable style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Select Image</Text>
+        <Text style={styles.buttonText}>Select Gif</Text>
       </Pressable>
-      {!!destImage && (
-        <>
-          <Text style={styles.title}>Compressed Gif: {destSize}</Text>
-          <Image
-            source={{ uri: destImage }}
-            resizeMode="contain"
-            style={{
-              height: height * 0.3,
-              width: width,
-            }}
-          />
-        </>
-      )}
+      <View style={styles.section}>
+        {!!destImage && (
+          <>
+            <Text style={styles.title}>Compressed Gif: {destSize}</Text>
+            <Image
+              source={{ uri: destImage }}
+              resizeMode="contain"
+              style={{
+                height: height * 0.3,
+                width: width,
+              }}
+            />
+          </>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
@@ -104,7 +105,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
+    marginVertical: 16,
   },
-  button: { padding: 15, backgroundColor: 'black', borderRadius: 8 },
+  button: {
+    padding: 15,
+    backgroundColor: 'black',
+    borderRadius: 8,
+    marginVertical: 16,
+  },
   buttonText: { color: '#FFFFFF', fontWeight: 'bold' },
+  section: { flex: 1, alignItems: 'center' },
 });

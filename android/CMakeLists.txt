@@ -25,11 +25,7 @@ set(SOURCES
     ../cpp/gifsicle/utility.cpp
 )
 
-
-if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
     # Consume shared libraries and headers from prefabs
-    find_package(ReactAndroid REQUIRED CONFIG)
-
     set(DEPS_INSTALL_DIR ${CMAKE_BINARY_DIR}/../cpp/includes)
 
     include_directories(
@@ -47,15 +43,34 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
     add_library(
         ${PACKAGE_NAME}
         SHARED
-        ./androidcpp/mediator.cpp
-            ./androidcpp/gifsicle_wrapper.cpp
-            ./androidcpp/testutils.cpp
+            ../cpp/bindings.cpp
+            ../cpp/bindings.h
         ./cpp-adapter.cpp
+            ../cpp/ThreadPool.h
+            ../cpp/ThreadPool.cpp
+            ../cpp/gifsicleutil.h
+            ../cpp/gifsicleutil.cpp
+            ../cpp/gifsicle_wrapper.h
+            ../cpp/gifsicle_wrapper.cpp
+            ../cpp/filesystem_wrapper.h
+            ../node_modules/react-native/ReactAndroid/src/main/jni/react/turbomodule/ReactCommon/CallInvokerHolder.cpp
             ${SOURCES}
     )
 
-    target_include_directories(${PACKAGE_NAME} PUBLIC ${GIFSICLELIB_FOLDER})
-    target_include_directories(${PACKAGE_NAME} PUBLIC ${GIFSICLE_INCLUDE} ${DEPS_INSTALL_DIR}/include)
+#    target_include_directories(${PACKAGE_NAME} PUBLIC ${GIFSICLELIB_FOLDER})
+#    target_include_directories(${PACKAGE_NAME} PUBLIC ${GIFSICLE_INCLUDE} ${DEPS_INSTALL_DIR}/include)
+
+target_include_directories(
+        ${PACKAGE_NAME}
+        PRIVATE
+        PUBLIC ${GIFSICLELIB_FOLDER}
+        PUBLIC ${GIFSICLE_INCLUDE} ${DEPS_INSTALL_DIR}/include
+        "../cpp"
+        "${NODE_MODULES_DIR}/react-native/ReactCommon"
+        "${NODE_MODULES_DIR}/react-native/ReactCommon/callinvoker"
+        "${NODE_MODULES_DIR}/react-native/ReactAndroid/src/main/jni/react/turbomodule" # <-- CallInvokerHolder JNI wrapper
+)
+
     target_compile_definitions(${PACKAGE_NAME} PUBLIC HAVE_CONFIG_H)
 
     find_library(
@@ -77,47 +92,15 @@ if(${REACT_NATIVE_MINOR_VERSION} GREATER_EQUAL 71)
         POSITION_INDEPENDENT_CODE ON
     )
 
-    find_package(openssl REQUIRED CONFIG)
-
+    find_package(ReactAndroid REQUIRED CONFIG)
+    find_package(fbjni REQUIRED CONFIG)
 
     target_link_libraries(
         ${PACKAGE_NAME}
         ${LOG_LIB}
+            fbjni::fbjni
         ReactAndroid::jsi
         ReactAndroid::reactnativejni
         ReactAndroid::react_nativemodule_core
         android
     )
-else()
-    add_library(
-        ${PACKAGE_NAME}
-        SHARED
-        ../../react-native/ReactCommon/jsi/jsi/jsi.cpp
-        ./androidcpp/mediator.cpp
-            ./androidcpp/gifsicle_wrapper.cpp
-            ./androidcpp/testutils.cpp
-        ./cpp-adapter.cpp
-    )
-
-    include_directories(
-        ../../react-native/React
-        ../../react-native/React/Base
-        ../../react-native/ReactCommon/jsi
-        ./cpp
-        ../cpp
-    )
-
-    set_target_properties(
-        ${PACKAGE_NAME} PROPERTIES
-        CXX_STANDARD 17
-        CXX_EXTENSIONS OFF
-        POSITION_INDEPENDENT_CODE ON
-    )
-
-    find_package(openssl REQUIRED CONFIG)
-
-    target_link_libraries(
-        ${PACKAGE_NAME}
-        android
-    )
-endif()

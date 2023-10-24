@@ -84,9 +84,7 @@ void ThreadPool::doWork()
   }
 }
 
-void ThreadPool::waitFinished()
-{
+void ThreadPool::waitFinished() {
   std::unique_lock<std::mutex> g(workQueueMutex);
-  workQueueConditionVariable.wait(g, [&]
-                                  { return workQueue.empty() && (busy == 0); });
+  workQueueConditionVariable.wait(g, [&]{ return workQueue.empty() && (busy == 0); });
 }

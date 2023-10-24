@@ -69,11 +69,13 @@ expo prebuild
 import RNGifsicle from 'react-native-gifsicle';
 
 const manipulatedUri = await RNGifsicle.compressGif(uri, {
-  lossy: 200,
+  lossy: 100,
   colors: 250,
-  // scale_x: 1,
-  // scale_y: 1,
+  // scale_x: 2,
+  // scale_y: 2,
   // optimize:3
+  // height: 250,
+  // width: 300,
 });
 ```
 

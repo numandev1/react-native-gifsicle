@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace animately
+namespace gifsicle_util
 {
 
 std::string testDirectoryPath();

@@ -4,10 +4,13 @@
 #include <regex>
 #include <gifsicle.h>
 #include "gifsicleutil.h"
-#include <filesystem>
+
 #include <iostream>
 #include <inttypes.h>
 #include "gifsicle_wrapper.h"
+#include <filesystem>
+#include "filesystem_wrapper.h"
+
 using namespace std;
 
 GifsicleWrapper::GifsicleWrapper()
@@ -54,10 +57,10 @@ string GifsicleWrapper::compressGifCpp(string sourceFile, string destFilePath, G
     string filePathStr = pathWithoutFileUri(sourceFile);
     string destFilePathStr = pathWithoutFileUri(destFilePath);
 
-    const filesystem::path gif_file{filePathStr};
+    fs::path gif_file{filePathStr};
 
     const auto gif_bytes{
-        gifsicle_util::loadFile(gif_file.u8string())};
+        gifsicle_util::loadFile(gif_file.string())};
 
     auto *gif{Gif_FullReadBuffer(reinterpret_cast<const uint8_t *>(gif_bytes.data()),
                                  gif_bytes.size(), GIF_READ_UNCOMPRESSED,

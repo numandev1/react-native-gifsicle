@@ -9,8 +9,7 @@
 #include <thread>
 #include <vector>
 
-class ThreadPool
-{
+class ThreadPool {
 public:
   ThreadPool();
   ~ThreadPool();
