@@ -28,7 +28,7 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
-    "release": "cd plugin && tsc && cd .. && release-it",
+    "release": "release-it",
     "example": "yarn --cwd example",
     "exampleExpo": "yarn --cwd exampleExpo",
     "pods": "cd example && pod-install --quiet",

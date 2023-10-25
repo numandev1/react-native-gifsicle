@@ -14,7 +14,7 @@
 
 </div>
 
-<p align="center"><b>REACT-NATIVE-GIFSICLE</b> is a react-native package, which helps us to <b>Compress</b> and <b>Manipulate</b>, It is a wrapper around <a href="https://github.com/kohler/gifsicle">Gifsicle CLI</a>
+<p align="center"><b>REACT-NATIVE-GIFSICLE</b> is a react-native package, which helps us to <b>Compress</b> and <b>Manipulate</b>, It is a using <a href="https://github.com/kohler/gifsicle">Gifsicle</a> under the hood
 
 # Table of Contents
 
@@ -114,6 +114,28 @@ if cocoapods are used in the project then pod has to be installed as well:
   5. And go the Build Settings tab. Make sure All is toggled on (instead of Basic)
   6. Look for Header Search Paths and add `$(SRCROOT)/../node_modules/react-native-gifsicle/ios/**` as `non-recursive`
 
+## API
+
+### `compressGif(uri, options)`
+
+Compresses a GIF located at the specified URI using the provided options.
+
+#### Parameters
+
+- `uri` (String): The URI of the GIF to compress.
+- `options` (Object): The options for compression. Available options are:
+    - `lossy` (Number): Alter image colors to shrink output file size at the cost of artifacts and noise. `default=200`
+    - `optimize` (Number): Optimize output GIFs. `default=3`
+    - `colors` (Number): Reduce the number of colors to N. `default=255`
+    - `scale_x` (Number): Scale the image in the x-axis.
+    - `scale_y` (Number): Scale the image in the y-axis.
+    - `height` (Number): Resize the output GIF height.
+    - `width` (Number): Resize the output GIF width.
+
+#### Returns
+
+- A Promise that resolves to a URI of the compressed GIF.
+
 ## Consider supporting with a ⭐️ [star on GitHub](https://github.com/numandev1/react-native-gifsicle/stargazers)
 
 If you are using the library in one of your projects, consider supporting it with a star. It takes a lot of time and effort to keep this maintained and address issues and bugs. Thank you.
@@ -122,4 +144,4 @@ If you are using the library in one of your projects, consider supporting it wit
 
 [Gifsicle](https://github.com/kohler/gifsicle) by [kohler](https://github.com/kohler)
 
-[Gifsicle Wrapper in Android & Ios](https://github.com/numandev1/react-native-gifsicle.git) by [Numan](https://github.com/numandev1)
+[Author of this package](https://github.com/numandev1/react-native-gifsicle.git) by [Numan](https://github.com/numandev1)

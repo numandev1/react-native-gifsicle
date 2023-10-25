@@ -44,8 +44,6 @@ export default function App() {
               // width: 300,
             });
             console.log(compressedUri, 'compressedUri');
-
-            console.log('compressed uri=>', compressedUri);
             setDestImage(compressedUri);
             const destFileStat = await stat(compressedUri);
             setDestSize(prettyBytes(destFileStat?.size || 0));
