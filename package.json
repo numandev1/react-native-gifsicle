@@ -1,6 +1,6 @@
 {
   "name": "react-native-gifsicle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Compress, Optimize and Manipulate GIF in React Native",
   "main": "./src/index.ts",
   "source": "src/index",
