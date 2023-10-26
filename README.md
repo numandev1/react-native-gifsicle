@@ -1,6 +1,7 @@
 <div align="center">
   <img src="./media/logo.gif">
   </br>
+  </br>
   <img width="500" src="./media/gifsicle.png">
 </div>
 
@@ -124,13 +125,13 @@ Compresses a GIF located at the specified URI using the provided options.
 
 - `uri` (String): The URI of the GIF to compress.
 - `options` (Object): The options for compression. Available options are:
-    - `lossy` (Number): Alter image colors to shrink output file size at the cost of artifacts and noise. `default=200`
-    - `optimize` (Number): Optimize output GIFs. `default=3`
-    - `colors` (Number): Reduce the number of colors to N. `default=255`
-    - `scale_x` (Number): Scale the image in the x-axis.
-    - `scale_y` (Number): Scale the image in the y-axis.
-    - `height` (Number): Resize the output GIF height.
-    - `width` (Number): Resize the output GIF width.
+  - `lossy` (Number): Alter image colors to shrink output file size at the cost of artifacts and noise. `default=200`
+  - `optimize` (Number): Optimize output GIFs. `default=3`
+  - `colors` (Number): Reduce the number of colors to N. `default=255`
+  - `scale_x` (Number): Scale the image in the x-axis.
+  - `scale_y` (Number): Scale the image in the y-axis.
+  - `height` (Number): Resize the output GIF height.
+  - `width` (Number): Resize the output GIF width.
 
 #### Returns
 
