@@ -120,15 +120,15 @@ Compresses a GIF located at the specified URI using the provided options.
 
 #### Parameters
 
-- `uri` (String): The URI of the GIF to compress.
-- `options` (Object): The options for compression. Available options are:
-  - `lossy` (Number): Alter image colors to shrink output file size at the cost of artifacts and noise. `default=200` range `[0-200]`
-  - `optimize` (Number): Optimize output GIFs. `default=3` range `[1-3]`
-  - `colors` (Number): Reduce the number of colors to N. `default=255` rage [0-255]
-  - `scale_x` (Number): Scale the image in the x-axis.
-  - `scale_y` (Number): Scale the image in the y-axis.
-  - `height` (Number): Resize the output GIF height.
-  - `width` (Number): Resize the output GIF width.
+- `uri` (string): The URI of the GIF to compress.
+- `options` (object): The options for compression. Available options are:
+  - `lossy` (number): Alter image colors to shrink output file size at the cost of artifacts and noise. `default=200` range `[0-200]`
+  - `optimize` (number): Optimize output GIFs. `default=3` range `[1-3]`
+  - `colors` (number): Reduce the number of colors to N. `default=255` rage [0-255]
+  - `scale_x` (number): Scale the image in the x-axis.
+  - `scale_y` (number): Scale the image in the y-axis.
+  - `height` (number): Resize the output GIF height.
+  - `width` (number): Resize the output GIF width.
 
 #### Returns
 
