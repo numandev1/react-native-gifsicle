@@ -12,7 +12,7 @@
 
 </div>
 
-<p align="center"><b>REACT-NATIVE-GIFSICLE</b> is a react-native package, which helps us to <b>Compress</b> and <b>Manipulate</b>, It is a using <a href="https://github.com/kohler/gifsicle">Gifsicle</a> under the hood
+<p align="center"><b>REACT-NATIVE-GIFSICLE</b> is a react-native package, which helps us to <b>Compress</b>, <b>Optimize</b> and <b>Manipulate</b> Gif, It is a using <a href="https://github.com/kohler/gifsicle">Gifsicle</a> under the hood
 
 # Table of Contents
 
