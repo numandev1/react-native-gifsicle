@@ -30,7 +30,6 @@ set(SOURCES
 
     include_directories(
         ${PACKAGE_NAME}
-        "./androidcpp"
         "../cpp"
             ${DEPS_INSTALL_DIR}
             ${GIFSICLE_INCLUDE}
